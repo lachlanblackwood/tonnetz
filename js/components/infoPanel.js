@@ -31,7 +31,7 @@ let infoPanel = {
     template:`
         <div class="info" :class="{infoExpanded: expanded}">
             <div @click="toggle" class="infoButton">{{buttonText}}</div>
-            <div class="infoExplain"> {{text}}</div>
+            <div class="infoExplain"> <span v-html="text"/></div>
         </div>
     `
 }
