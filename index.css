@@ -36,6 +36,43 @@ div { /* No reason for anything to be selectable */
 .languageSwitcher { cursor: pointer; position: fixed; top: 30px; left: 10px; font-size: 14px; color: #aaa; }
 .languageSwitcher div:hover { text-decoration: underline; }
 
+.info {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 12px;
+    color: #aaa;
+    background: white;
+    padding: 2px;
+    border: 1px solid #323248;
+    border-radius: 5px;
+    transition: width .5s ease-out, height .5s ease-out;
+    width: 23px; /* Fixed width and height as transition won't occur otherwise */
+    height: 9px;
+}
+.info.infoExpanded{
+    width: 80%;
+    height: 80%;
+}
+.info.infoExpanded .infoButton{
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 2px;
+    border: 1px solid #323248;
+    border-radius: 5px;
+}
+.infoButton:hover { font-weight: bold; }
+/* Ease in the explanation so it doesn't spill out of the box while transitionning */
+.info .infoExplain {
+    opacity:0;
+    transition: opacity .5s ease-in;
+}
+.info.infoExpanded .infoExplain {
+    opacity:1;
+}
+
 .columns { display: flex; flex-wrap: wrap; justify-content: center; }
 .col-1 { max-width: 1000px; margin: 20px; flex: 3 1 450px; }
 .col-2 { max-width: 320px; margin: 20px; flex: 1 1 135px; }
@@ -61,6 +98,10 @@ circle { fill: white; stroke: #aaa; }
 line { stroke: #aaa; }
 polygon { stroke: #aaa; fill : white; }
 text { fill: #aaa; font-size: 14px; text-anchor: middle; dominant-baseline: mathematical; }
+
+.tonnetzView {
+    position: relative;
+}
 
 .tonnetz, .clock { display: block; user-select: none; max-width: 100%; height: auto; }
 .tonnetz { border: 1px solid #323248; border-radius: 6px 6px 0 0; box-sizing: border-box; }

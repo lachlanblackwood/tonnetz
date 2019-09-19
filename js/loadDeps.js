@@ -77,6 +77,9 @@ fallback.load({
     ],
     'Tonnetz_intervalTable':[
         mydir+'components/intervalTable.js'
+    ],
+    'Tonnetz_infoPanel':[
+        mydir+'components/infoPanel.js'
     ]
 },{
     shim:{
@@ -88,7 +91,7 @@ fallback.load({
         'Tonnetz_clockOctave': ['Tonnetz_mixins'],
         'Tonnetz_playRecorder': ['Tonnetz_midiBus', 'Tonnetz_loader','Tonnetz_utils'],
         'Tonnetz_midiBus': ['Vue','JZZ'],
-        'Tonnetz_tonnetzView': ['Tonnetz_tonnetzLike']
+        'Tonnetz_tonnetzView': ['Tonnetz_tonnetzLike','Tonnetz_infoPanel']
     }
 }
 )

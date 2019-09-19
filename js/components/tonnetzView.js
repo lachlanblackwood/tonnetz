@@ -45,7 +45,7 @@ let tonnetzSelector = {
 }
 
 let tonnetzView = {
-    components: {tonnetzPlan,chickenWire,dragZoomSvg,tonnetzSelector},
+    components: {tonnetzPlan,chickenWire,dragZoomSvg,tonnetzSelector,infoPanel},
     props:{
         // The initial value for the Tonnetz
         initTonnetz:{
@@ -93,6 +93,7 @@ let tonnetzView = {
     },
     template:`
     <div class="tonnetzView">
+    <info-panel :infoType="type"></info-panel>
     <drag-zoom-svg v-bind:height="600" v-bind:width="1000" :lock="lock">
         <template v-slot="slotProps">
             <tonnetz-plan v-if="type=='tonnetz'" v-bind:notes="notes" v-bind:intervals="intervals" :bounds="slotProps.bounds" :trace="trace"></tonnetz-plan>

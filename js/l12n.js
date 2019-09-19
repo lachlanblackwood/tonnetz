@@ -17,7 +17,11 @@ const strings = {
     translate: 'Translate',
     export: 'Export',
     connected: 'This Tonnetz is non-connected and doesn’t contain every note.',
-    notes: ['A', 'A♯', 'B', 'C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯']
+    notes: ['A', 'A♯', 'B', 'C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯'],
+    infos:{
+      tonnetz: 'Placeholder explanation for the Tonnetz',
+      chicken: 'Placeholder explanation for the Chicken-Wire'
+    }
   },
   de: {
     title: 'Das Tonnetz',
