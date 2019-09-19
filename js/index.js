@@ -50,7 +50,7 @@ fallback.ready(function(){
 // The App's main object, handling global concerns
 proto = new Vue({
     el: '#proto',
-    components: {clockOctave,songLoader,pianoKeyboard,playRecorder,tonnetzView,languageSelector,intervalTable},
+    components: {clockOctave,songLoader,pianoKeyboard,playRecorder,tonnetzView,languageSelector,intervalTable,creditScreen},
     data: {
         // The list of all 3-interval Tonnetze
         tonnetze: tonnetze3,

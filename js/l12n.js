@@ -19,9 +19,38 @@ const strings = {
     connected: 'This Tonnetz is non-connected and doesn’t contain every note.',
     notes: ['A', 'A♯', 'B', 'C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯'],
     infos:{
-      tonnetz: 'Placeholder explanation for the Tonnetz',
+      tonnetz: 'Placeholder explanation for the <i>Tonnetz</i>',
       chicken: 'Placeholder explanation for the Chicken-Wire'
-    }
+    },
+    credits: `
+      <h2>Credit</h2>
+
+      <span>Conceived and developped by Corentin Guichaoua and Moreno Andreatta</span>
+      
+      <h2>Acknowledgments</h2>
+      
+      <span>Thanks to Louis Bigo for the original Hexachord software. <br>
+      
+      Thanks to Philipp Legner for improving on the initial visual design and his feedback. <br>
+      
+      Thanks to people who helped translate the software to other languages:
+        <ul>
+          <li>German: Philipp Legner
+          <li>Hindi: Nilesh Trivedi
+        </ul>
+      
+      
+      Sample MIDI tracks are interpretted by Moreno Andreatta. <br>
+      
+      Thanks to all collaborators for inspiration. <br>
+      
+      Thanks to USIAS / University of Strasbourg / IRMA / IRCAM for financial support.</span>
+      
+      <h2>Citation</h2>
+      <span><a href="url">www.gitlab.com/guichaoua/web-hexachord</a> <br>
+      Academic paper to come, please check back later</span>
+      `,
+    creditsButton: "Credits"
   },
   de: {
     title: 'Das Tonnetz',

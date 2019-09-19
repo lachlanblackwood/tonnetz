@@ -80,6 +80,9 @@ fallback.load({
     ],
     'Tonnetz_infoPanel':[
         mydir+'components/infoPanel.js'
+    ],
+    'Tonnetz_credits':[
+        mydir+'components/creditScreen.js'
     ]
 },{
     shim:{

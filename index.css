@@ -36,6 +36,9 @@ div { /* No reason for anything to be selectable */
 .languageSwitcher { cursor: pointer; position: fixed; top: 30px; left: 10px; font-size: 14px; color: #aaa; }
 .languageSwitcher div:hover { text-decoration: underline; }
 
+.creditButton { cursor: pointer; float:right; bottom: 30px; right: 10px; font-size: 14px; color: #aaa; }
+.creditButton:hover { text-decoration: underline; }
+
 .info {
     position: absolute;
     top: 5px;
