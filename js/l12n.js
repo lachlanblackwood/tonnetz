@@ -15,6 +15,7 @@ const strings = {
     pause: '⏸ Pause',
     rotate: 'Rotate 180°',
     translate: 'Translate',
+    semitones: 'semitones',
     export: 'Export',
     connected: 'This Tonnetz is non-connected and doesn’t contain every note.',
     notes: ['A', 'A♯', 'B', 'C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯'],

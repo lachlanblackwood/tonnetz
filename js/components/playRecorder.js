@@ -9,7 +9,10 @@ let playRecorder = {
         modal: false,
         startTime:undefined,
         SMF:undefined,
-        recording:false
+        recording:false,
+        translateInterval:1,
+        translateRange: Array.from(range(-11,12)),
+        rotateCenter:'auto'
     }},
     computed:{
         strings: function(){return this.$root.strings}
@@ -171,9 +174,16 @@ let playRecorder = {
             <button v-show="SMF" id=btn v-on:click='playPause'> {{ player.playing ? strings.pause : strings.play }} </button>
             <button v-show="player.playing" id=stop @click="stop">{{ strings.stopPlay }}</button>
             <button id=recordButton @click='recordToggle'>{{ recording ? strings.stopRecord : strings.start }}</button>
-            <button v-show="SMF" id=rotate @click='rotate'>{{ strings.rotate }}</button>
-            <button v-show="SMF" id=translate @click='translate(1)'>{{ strings.translate }}</button>
             <button v-show="SMF" id=export @click='download'>{{ strings.export }}</button>
+            <br>
+            <button v-show="SMF" id=rotate @click='rotate'>{{ strings.rotate }}</button>
+            <br>
+            <div v-show="SMF">
+                <button id=translate @click='translate(translateInterval)'>{{ strings.translate }}</button>
+                <select v-model.number="translateInterval" @click.prevent="">
+                    <option v-for="tr in translateRange"> {{ tr }} </option>
+                </select> {{ strings.semitones }}
+            </div>
             <song-loader v-show="modal" @load="load" @cancel="modal=false" file-browser></song-loader>
         </div>
     `
