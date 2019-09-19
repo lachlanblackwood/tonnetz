@@ -218,20 +218,17 @@ let trichordChicken = {
         strings: function (){
             return this.$root.strings
         },
-        text: function(){
-            //Is this a major or minor chord ?
+        isMinorish: function(){
+            //Is this a majorish or minorish chord ?
             //I.E. is the matching triangle in the Tonnetz right- or left-pointed
-            var major = (this.shape[0].y == this.shape[1].y);
-            if (major){
-                return this.strings.notes[this.notes[2].id]; // notes[2] is the root
-            }else{
-                var display = this.strings.notes[this.notes[2].id];
-                return display[0].toLowerCase() + display.substring(1); //Uncapitalize the root, leave the alteration
-            }
+            return this.shape[0].y !== this.shape[1].y;
+        },
+        text: function(){
+            return this.strings.notes[this.notes[2].id];
         }
     },
     template: `
-        <g v-bind:id="id" class=chickenTrichord>
+        <g v-bind:id="id" class=chickenTrichord :class="{minorish:isMinorish}">
             <circle v-bind:class="{activeTrichord:isActive, visitedTrichord:semiActive}"
                 v-bind:cx="center.x" v-bind:cy="center.y">
             </circle> 

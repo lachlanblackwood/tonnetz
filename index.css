@@ -130,6 +130,7 @@ text { fill: #aaa; font-size: 14px; text-anchor: middle; dominant-baseline: math
 .chickenDichord circle { r: 2}
 .chickenTrichord circle { r: 10 }
 .chickenTrichord text {font-size: 70%}
+.chickenTrichord.minorish text {font-style: italic}
 
 .key-selector { display: flex; flex-wrap: wrap; justify-content: center; }
 .key-selector button { background: white; width: 28px; height: 28px; border: 2px solid #aaa;
