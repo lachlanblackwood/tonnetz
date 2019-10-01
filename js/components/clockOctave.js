@@ -35,6 +35,10 @@ let clockOctave = {
         intervals: {
             type: Number,
             default: 1
+        },
+        toggle:{
+            type:Boolean,
+            default: false
         }
     },
     computed: {
@@ -99,7 +103,8 @@ let clockOctave = {
             <clickToPlayWrapper v-for="n in [0,1,2,3,4,5,6,7,8,9,10,11]" 
             :pitches="nodesToPitches([n])"
             v-bind:key="genKey([n])"
-            :transform="posToTransform(position(n))">
+            :transform="posToTransform(position(n))"
+            :toggle="toggle">
                 <note-clock
                 v-bind:notes="node2Notes([n])"
                 />
