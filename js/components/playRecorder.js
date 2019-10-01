@@ -15,7 +15,15 @@ let playRecorder = {
         rotateCenter:'auto'
     }},
     computed:{
-        strings: function(){return this.$root.strings}
+        strings: function(){return this.$root.strings},
+        rotateCenters: function(){
+            let A5 = 81;
+            let result = [];
+            for(i of range(0,12)){
+                result.push({value:A5+i/2,name:`${this.strings.notes[0]} ⇄ ${this.strings.notes[i]}`});
+            }
+            return result;
+        }
     },
     methods:{
         resetNotes: function(){
@@ -68,9 +76,9 @@ let playRecorder = {
             this.player.connect(midiBus.midiThru);
             this.resetNotes();
         },
-        rotate: function(){
+        rotate: function(symmetryCenter = 'auto'){
             this.stop()
-            this.rotateTrajectory(this.SMF);
+            this.rotateTrajectory(this.SMF,symmetryCenter);
             // Does the player really need to be reassigned ?
             this.player=this.SMF.player();
             this.player.connect(midiBus.midiThru);
@@ -87,18 +95,17 @@ let playRecorder = {
             this.player.play();
         },
         //Simple version operating on pitches alone
-        rotateTrajectory : function (SMF) {
+        rotateTrajectory : function (SMF,symmetryCenter) {
             for (SMFTrack of SMF){
-                let symmetryCenter = undefined;
                 for (SME of SMFTrack){
                     let note = SME.getNote();
                     if(note !== undefined){
-                        if (symmetryCenter === undefined){
+                        if (symmetryCenter === undefined || symmetryCenter === 'auto'){
                             symmetryCenter = note;
                         }else{
                             noteIntervalClass = mod(2*(symmetryCenter - note),12)
                             // If the interval is a fifth or more, take the descending interval instead
-                            if(noteIntervalClass > 6){  
+                            if(noteIntervalClass > 6){
                                 note += noteIntervalClass-12
                             }else{
                                 note += noteIntervalClass
@@ -110,8 +117,8 @@ let playRecorder = {
             }
         },
         // Transposes a recording by a given number of semitones
-        translateTrajectory : function (SMF,translate) {
-            for (SMFTrack of SMF){
+        translateTrajectory : function (translate) {
+            for (SMFTrack of this.SMF){
                 for (SME of SMFTrack){
                     let note = SME.getNote();
                     if(note !== undefined){
@@ -176,7 +183,12 @@ let playRecorder = {
             <button id=recordButton @click='recordToggle'>{{ recording ? strings.stopRecord : strings.start }}</button>
             <button v-show="SMF" id=export @click='download'>{{ strings.export }}</button>
             <br>
-            <button v-show="SMF" id=rotate @click='rotate'>{{ strings.rotate }}</button>
+            <div v-show="SMF">
+                <button id=rotate @click='rotate(rotateCenter)'>{{ strings.rotate }}</button>
+                <select v-model.number="rotateCenter">
+                    <option v-for="center in rotateCenters" :value="center.value"> {{ center.name }} </option>
+                </select>
+            </div>
             <br>
             <div v-show="SMF">
                 <button id=translate @click='translate(translateInterval)'>{{ strings.translate }}</button>
