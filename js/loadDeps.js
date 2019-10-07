@@ -83,7 +83,10 @@ fallback.load({
     ],
     'Tonnetz_credits':[
         mydir+'components/creditScreen.js'
-    ]
+    ],
+    'Tonnetz_ascii':[
+        mydir+'components/asciiBindings.js'
+    ],
 },{
     shim:{
         // Wait for JZZ to be loaded before loading its submodules
@@ -94,6 +97,7 @@ fallback.load({
         'Tonnetz_clockOctave': ['Tonnetz_mixins'],
         'Tonnetz_playRecorder': ['Tonnetz_midiBus', 'Tonnetz_loader','Tonnetz_utils'],
         'Tonnetz_midiBus': ['Vue','JZZ'],
+        'Tonnetz_ascii': ['Tonnetz_midiBus'],
         'Tonnetz_tonnetzView': ['Tonnetz_tonnetzLike','Tonnetz_infoPanel']
     }
 }

@@ -50,7 +50,10 @@ fallback.ready(function(){
 // The App's main object, handling global concerns
 proto = new Vue({
     el: '#proto',
-    components: {clockOctave,songLoader,pianoKeyboard,playRecorder,tonnetzView,languageSelector,intervalTable,creditScreen},
+    components: {
+        clockOctave,songLoader,pianoKeyboard,playRecorder,tonnetzView,
+        languageSelector,intervalTable,creditScreen,asciiBindings
+    },
     data: {
         // The list of all 3-interval Tonnetze
         tonnetze: tonnetze3,
@@ -66,18 +69,13 @@ proto = new Vue({
         // }),
         // Synthetiser engine
         synth: JZZ.synth.Tiny(),
-        //synth:JZZ.synth.MIDIjs({ 
-            //TODO: Use a soundfont from our own server
-            //soundfontUrl: "https://raw.githubusercontent.com/mudcube/MIDI.js/master/examples/soundfont/", 
-            //instrument: "acoustic_grand_piano" })
-                //.or(function(){ proto.loaded(); alert('Cannot load MIDI.js!\n' + this.err()); })
-                //.and(function(){ proto.loaded(); }),
-        // Azerty keyboard bindings
-        ascii: JZZ.input.ASCII({
-                W:'C5', S:'C#5', X:'D5', D:'D#5', C:'E5', V:'F5',
-                G:'F#5', B:'G5', H:'Ab5', N:'A5', J:'Bb5', M:'B5'
-                }),
-        
+        // synth:JZZ.synth.MIDIjs({ 
+        //     //TODO: Use a soundfont from our own server
+        //     soundfontUrl: "https://raw.githubusercontent.com/mudcube/MIDI.js/master/examples/soundfont/", 
+        //     instrument: "acoustic_grand_piano" })
+        //         .or(function(){ proto.loaded(); alert('Cannot load MIDI.js!\n' + this.err()); })
+        //         .and(function(){ proto.loaded(); }),
+
         // Should trajectory drawing be active?
         trace: false,
         // The localisation strings
@@ -172,7 +170,6 @@ proto = new Vue({
         midiBus.$on('note-off',this.noteOff);
 
         //Connect the Midi
-        this.ascii.connect(midiBus.midiThru);
         midiBus.midiThru.connect(this.synth);
         midiBus.midiThru.connect(this.midiHandler);   
     }
