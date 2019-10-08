@@ -44,6 +44,7 @@ let dragZoomSvg = {
         zoomInOut: function (wheelEvent){
             if(this.lock) return; //Ignore if locked
 
+            wheelEvent.preventDefault();
             var multiplier = Math.exp(-wheelEvent.deltaY/600)
             // Bound the multiplier to acceptable values
             multiplier = bound(multiplier,this.scaleBounds.mini/this.scale,
@@ -113,7 +114,7 @@ let dragZoomSvg = {
         <svg id="svg" class="tonnetz" 
         v-bind:width="width" v-bind:height="height" 
         v-bind:viewBox="viewbox"
-        v-on:wheel.prevent="zoomInOut"
+        v-on:wheel="zoomInOut"
         v-on:pointerdown="captureOn"
         v-on:pointerup="captureOff"
         v-on:pointerleave="captureOff"
