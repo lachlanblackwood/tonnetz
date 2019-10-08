@@ -24,9 +24,9 @@
         </div>
 
         <div id="proto">
-            <h1 v-cloak>{{ strings.title }}</h1>
-            <h2 v-cloak>{{ strings.subtitle }}</h2>
-            <language-selector :languages="Object.keys(allStrings)" v-model="language"></language-selector>
+            <h1 v-cloak>{{ strings.get('title') }}</h1>
+            <h2 v-cloak>{{ strings.get('subtitle') }}</h2>
+            <language-selector :languages="Object.keys(strings.data)" @input="strings.setLanguage($event)"></language-selector>
             <div v-cloak class="reset" @click="reset(language)">{{ strings.reset }}</div>
 
             <div class="columns">

@@ -13,7 +13,7 @@ let noteTonnetz = {
                 v-bind:data-key="notes[0].id">
             </circle> 
             <text>
-                {{ strings.notes[notes[0].id] }}
+                {{ strings.get(['notes',notes[0].id]) }}
             </text>
         </g>
         `
@@ -224,7 +224,7 @@ let trichordChicken = {
             return this.shape[0].y !== this.shape[1].y;
         },
         text: function(){
-            return this.strings.notes[this.notes[2].id];
+            return this.strings.get(['notes',this.notes[2].id]);
         }
     },
     template: `

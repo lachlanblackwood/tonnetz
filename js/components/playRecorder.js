@@ -20,7 +20,7 @@ let playRecorder = {
             let A5 = 81;
             let result = [];
             for(i of range(0,12)){
-                result.push({value:A5+i/2,name:`${this.strings.notes[0]} ⇄ ${this.strings.notes[i]}`});
+                result.push({value:A5+i/2,name:`${this.strings.get('notes.0')} ⇄ ${this.strings.get(['notes',i])}`});
             }
             return result;
         }
@@ -177,24 +177,24 @@ let playRecorder = {
     },
     template: `
         <div class="record" v-cloak>
-            <button id=load v-on:click='modal = true'>{{ strings.load }}</button>
-            <button v-show="SMF" id=btn v-on:click='playPause'> {{ player.playing ? strings.pause : strings.play }} </button>
-            <button v-show="player.playing" id=stop @click="stop">{{ strings.stopPlay }}</button>
-            <button id=recordButton @click='recordToggle'>{{ recording ? strings.stopRecord : strings.start }}</button>
-            <button v-show="SMF" id=export @click='download'>{{ strings.export }}</button>
+            <button id=load v-on:click='modal = true'>{{ strings.get('load') }}</button>
+            <button v-show="SMF" id=btn v-on:click='playPause'> {{ player.playing ? strings.get('pause') : strings.get('play') }} </button>
+            <button v-show="player.playing" id=stop @click="stop">{{ strings.get('stopPlay') }}</button>
+            <button id=recordButton @click='recordToggle'>{{ recording ? strings.get('stopRecord') : strings.get('start') }}</button>
+            <button v-show="SMF" id=export @click='download'>{{ strings.get('export') }}</button>
             <br>
             <div v-show="SMF">
-                <button id=rotate @click='rotate(rotateCenter)'>{{ strings.rotate }}</button>
+                <button id=rotate @click='rotate(rotateCenter)'>{{ strings.get('rotate') }}</button>
                 <select v-model.number="rotateCenter">
                     <option v-for="center in rotateCenters" :value="center.value"> {{ center.name }} </option>
                 </select>
             </div>
             <br>
             <div v-show="SMF">
-                <button id=translate @click='translate(translateInterval)'>{{ strings.translate }}</button>
+                <button id=translate @click='translate(translateInterval)'>{{ strings.get('translate') }}</button>
                 <select v-model.number="translateInterval" @click.prevent="">
                     <option v-for="tr in translateRange"> {{ tr }} </option>
-                </select> {{ strings.semitones }}
+                </select> {{ strings.get('semitones') }}
             </div>
             <song-loader v-show="modal" @load="load" @cancel="modal=false" file-browser></song-loader>
         </div>

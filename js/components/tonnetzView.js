@@ -38,7 +38,7 @@ let tonnetzSelector = {
         </div>
         <button v-on:click="$emit('input',{intervals:value.intervals,type:(value.type=='chicken'?'tonnetz':'chicken')})"
         v-bind:class="{active: value.type=='chicken'}">
-            {{ strings.dual }}
+            {{ strings.get('dual') }}
         </button>
     </div>
     `
@@ -102,7 +102,7 @@ let tonnetzView = {
     </drag-zoom-svg>
 
     <tonnetz-selector v-model="graph"></tonnetz-selector>
-    <p class="warning" :style="isConnected ? {visibility:'hidden'} : {}">{{ strings.connected }}</p>
+    <p class="warning" :style="isConnected ? {visibility:'hidden'} : {}">{{ strings.get('connected') }}</p>
     </div>
     `
 }

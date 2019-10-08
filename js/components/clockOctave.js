@@ -12,7 +12,7 @@ let noteClock = {
             <circle v-bind:class="{activeNode:isActive}" v-bind:data-key="notes[0].id">
             </circle> 
             <text>
-                {{ strings.notes[notes[0].id] }}
+                {{ strings.get(['notes',notes[0].id]) }}
             </text>
         </g>
         `

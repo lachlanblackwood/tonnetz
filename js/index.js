@@ -79,7 +79,7 @@ proto = new Vue({
         // Should trajectory drawing be active?
         trace: false,
         // The localisation strings
-        allStrings: strings,
+        strings: strings,
         // The picked locale
         language: language || en
     },
@@ -87,9 +87,6 @@ proto = new Vue({
         complementNotes: function(){
             return this.notes.map(note => ({id:note.id, count:note.count?0:1}));
         },
-        strings: function(){
-            return strings[this.language]
-        }
     },
     created: function(){
         //Delay connection of MIDI devices to let JZZ finish its initialisation

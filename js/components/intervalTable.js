@@ -7,6 +7,9 @@ let intervalTable = {
         }
     },
     computed:{
+        strings: function(){
+            return this.$root.strings;
+        },
         intervalContent: function(){
             let length = this.notes.length
             let result = Array(length).fill(0)
@@ -25,11 +28,11 @@ let intervalTable = {
     template:`
     <table style="width:100%">
         <tr>
-            <th>Interval</th>
+            <th> {{ strings.get('interval') }} </th>
             <th v-for="ic,key,index in intervalContent">{{key}}</th>
         </tr>
         <tr>
-            <th>Content</th>
+            <th> {{ strings.get('content') }} </th>
             <th v-for="ic,key,index in intervalContent">{{ic}}</th>
         </tr>
     </table>

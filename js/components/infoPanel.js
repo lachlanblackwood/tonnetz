@@ -13,13 +13,13 @@ let infoPanel = {
             return this.$root.strings;
         },
         text: function(){
-            return this.strings.infos[this.infoType]
+            return this.strings.get(`infos.${this.infoType}`)
         },
         buttonText: function(){
             if(this.expanded){
-                return "Close"
+                return this.strings.get("infoClose")
             }else{
-                return "Info"
+                return this.strings.get("info")
             }
         }
     },

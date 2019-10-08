@@ -11,12 +11,12 @@ let creditScreen = {
     template: `
         <div class="credits">
             <div class = "creditButton" @click="expanded=true">
-                <span> {{strings.creditsButton}} </span>
+                <span> {{strings.get('creditsButton')}} </span>
             </div>
             <div v-if="expanded">
                 <div class="modal-background" @click="expanded=false"></div>
                 <div class="modal">
-                    <span v-html="strings.credits"/>
+                    <span v-html="strings.get('credits')"/>
                 </div>
             </div>
         </div>
