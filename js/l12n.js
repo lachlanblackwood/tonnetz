@@ -103,11 +103,29 @@ const strings = {
     export: 'Export', // Needs translation
     connected: 'इस जोड़ में सभी स्वर नहीं है.',
     notes: ['ध', 'निb', 'नि', 'सा', 'रेb', 'रे', 'गb', 'ग', 'म', 'पb', 'प', 'धb']
-  }
+  },
+    getString(key){
+        let string = this[this.activeLang][key];
+        if(!string){
+            console.warn(`No localisation string for "$key", defaulting to English`)
+            string = this.en[key]
+        }
+    },
+    setLanguage(lang){
+        if(!this[lang]){
+            console.warn("Invalid language option, defaulting to English");
+            this.activeLang='en'
+        }else{
+            this.activeLang=lang;
+        }
+    }
 }
 
 const search = location.search.match(/hl=(\w*)/);
 const language = strings.hasOwnProperty(search) ? search[1] : 'en';
+
+strings.setLanguage(language);
+
 
 let languageSelector = {
     props:{
