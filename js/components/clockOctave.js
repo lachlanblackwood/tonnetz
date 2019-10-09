@@ -5,13 +5,18 @@ let noteClock = {
     computed: {
         strings:function(){
             return this.$root.strings
+        },
+        textScale: function (){
+            let maxLength=Math.max(...this.strings.get('notes').map(name => name.length))
+            let scale = Math.min(1,2.5/maxLength)
+            return `scale(${scale})`
         }
     },
     template: `
         <g class=noteClock>
             <circle v-bind:class="{activeNode:isActive}" v-bind:data-key="notes[0].id">
             </circle> 
-            <text>
+            <text :transform="textScale">
                 {{ strings.get(['notes',notes[0].id]) }}
             </text>
         </g>

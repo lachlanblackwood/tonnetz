@@ -29,10 +29,6 @@
 h1 { text-align: center; text-transform: uppercase; margin: 12px 0 4px; font-size: 40px; }
 h2 { text-align: center; text-transform: uppercase; color: #aaa; margin: 0 0 20px; }
 
-div { /* No reason for anything to be selectable */
-
-}
-
 .reset { cursor: pointer; position: fixed; top: 30px; right: 10px; font-size: 14px; color: #aaa; }
 .reset:hover { text-decoration: underline; }
 
