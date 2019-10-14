@@ -165,7 +165,7 @@ let tonnetzLike = {
             return n.map(function textify(node){return `${node.x},${node.y}`}).join(' ')
         }
     },
-    subtemplateNote:`
+    subtemplateTrichord:`
             <clickToPlayWrapper :transform="position(n.nodes[0])"
             v-for="n in trichordStateList" v-bind:key="genKey(n.nodes)"
             :pitches="nodesToPitches(n.nodes)">
@@ -185,7 +185,7 @@ let tonnetzLike = {
                 v-bind:notes="memoNode2Notes(n.nodes)"
                 :forceState="n.status"/>
     </clickToPlayWrapper>`,
-    subtemplateTrichord:`
+    subtemplateNote:`
             <clickToPlayWrapper :transform="position(n.node)"
             v-for="n in nodeStateList" v-bind:key="genKey([n.node])"
             :pitches="nodesToPitches([n.node])">
@@ -207,9 +207,9 @@ let tonnetzPlan = {
     mixins: [traceHandler],
     template: `
         <g>
+            ${tonnetzLike.subtemplateTrichord}  
+            ${tonnetzLike.subtemplateDichord} 
             ${tonnetzLike.subtemplateNote}
-            ${tonnetzLike.subtemplateDichord}
-            ${tonnetzLike.subtemplateTrichord}    
         </g>
     `
 }
@@ -319,9 +319,9 @@ let chickenWire = {
     mixins: [traceHandler],
     template: `
         <g>
-        ${tonnetzLike.subtemplateTrichord}
-        ${tonnetzLike.subtemplateDichord}   
         ${tonnetzLike.subtemplateNote} 
+        ${tonnetzLike.subtemplateDichord} 
+        ${tonnetzLike.subtemplateTrichord}
         </g>
     `
 }
