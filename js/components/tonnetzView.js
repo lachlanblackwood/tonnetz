@@ -1,29 +1,15 @@
 //Component aggregating a tonnetz with a selector
 
-let tonnetze3 = [
-    [1,1,10],
-    [1,2,9],
-    [1,3,8],
-    [1,4,7],
-    [1,5,6],
-    [2,2,8],
-    [2,3,7],
-    [2,4,6],
-    [2,5,5],
-    [3,4,5],
-    [3,3,6],
-    [4,4,4]
-];
-
 let tonnetzSelector = {
     props:{
         value:{
             type:Object
+        },
+        tonnetze:{ // Range of selectable Tonnetze
+            type: Array,
+            required: true
         }
     },
-    data:function(){return{
-        tonnetze:tonnetze3,
-    }},
     computed:{
         strings: function(){return this.$root.strings}
     },
@@ -67,12 +53,16 @@ let tonnetzView = {
             default:false
         }
     },
+    static: {
+        tonnetze3: [
+            [1,1,10],[1,2,9],[1,3,8],[1,4,7],[1,5,6],[2,2,8],
+            [2,3,7],[2,4,6],[2,5,5],[3,4,5],[3,3,6],[4,4,4]
+        ]
+    },
     data: function(){return{
-        // The list of all 3-interval Tonnetze
-        tonnetze: tonnetze3,
         graph: {
             // The selected interval set
-            intervals:tonnetze3.find(value => arrayEquals(this.initTonnetz,value)), //Find so that the arrays compare equal
+            intervals:this.tonnetze3.find(value => arrayEquals(this.initTonnetz,value)), //Find so that the arrays compare equal
             // The type of representation for the main window ('tonnetz' or 'chicken')
             type: this.initType
         },
@@ -101,7 +91,7 @@ let tonnetzView = {
         </template>
     </drag-zoom-svg>
 
-    <tonnetz-selector v-model="graph"></tonnetz-selector>
+    <tonnetz-selector v-model="graph" :tonnetze="tonnetze3" ></tonnetz-selector>
     <p class="warning" :style="isConnected ? {visibility:'hidden'} : {}">{{ strings.get('connected') }}</p>
     </div>
     `

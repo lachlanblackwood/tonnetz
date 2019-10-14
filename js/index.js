@@ -47,7 +47,17 @@ var record = {
 // Wait for libraries to be loaded
 fallback.ready(function(){
 
-// The App's main object, handling global concerns
+// Global mixin to add a static field to hold static data to any component
+Vue.mixin({
+    beforeCreate() {
+        const static = this.$options.static
+        if (typeof static === 'object') {
+            Object.assign(this, static)
+        }
+    }
+})
+
+    // The App's main object, handling global concerns
 proto = new Vue({
     el: '#proto',
     components: {
@@ -55,10 +65,6 @@ proto = new Vue({
         languageSelector,intervalTable,creditScreen,asciiBindings
     },
     data: {
-        // The list of all 3-interval Tonnetze
-        tonnetze: tonnetze3,
-        // The selected interval set
-        intervals: tonnetze3[9],
         // The type of representation for the main window ('tonnetz' or 'chicken')
         type: 'tonnetz',
         // The list of all notes: their name and their status
