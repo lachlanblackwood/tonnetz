@@ -140,10 +140,12 @@ proto = new Vue({
             this.trace = !this.trace;
         },
         // Handlers for playback events fired from the app
-        noteOn: function(pitches){
+        noteOn: function(pitches,origin){
             //var notes = this.node2Notes(nodes);
             for (var pitch of pitches){
-                midiBus.midiThru.noteOn(0,pitch,100);
+                let event = JZZ.MIDI.noteOn(0,pitch,100);
+                event.origin = origin
+                midiBus.midiThru.send(event);
             }
         },
         noteOff: function(pitches){

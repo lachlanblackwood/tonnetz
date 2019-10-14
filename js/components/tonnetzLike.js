@@ -168,7 +168,8 @@ let tonnetzLike = {
     subtemplateTrichord:`
             <clickToPlayWrapper :transform="position(n.nodes[0])"
             v-for="n in trichordStateList" v-bind:key="genKey(n.nodes)"
-            :pitches="nodesToPitches(n.nodes)">
+            :pitches="nodesToPitches(n.nodes)"
+            :id="n.nodes">
                 <trichord 
                 v-bind:notes="memoNode2Notes(n.nodes)"
                 v-bind:nodes="n.nodes"
@@ -179,7 +180,8 @@ let tonnetzLike = {
     subtemplateDichord:`
             <clickToPlayWrapper :transform="position(n.nodes[0])"
             v-for="n in dichordStateList" v-bind:key="genKey(n.nodes)"
-            :pitches="nodesToPitches(n.nodes)">
+            :pitches="nodesToPitches(n.nodes)"
+            :id="n.nodes">
                 <dichord 
                 v-bind:shape="memoShape(n.nodes)"
                 v-bind:notes="memoNode2Notes(n.nodes)"
@@ -188,7 +190,8 @@ let tonnetzLike = {
     subtemplateNote:`
             <clickToPlayWrapper :transform="position(n.node)"
             v-for="n in nodeStateList" v-bind:key="genKey([n.node])"
-            :pitches="nodesToPitches([n.node])">
+            :pitches="nodesToPitches([n.node])"
+            :id="[n.node]">
                 <note v-bind:notes="memoNode2Notes([n.node])"
                 v-bind:nodes="[n.node]"
                 :forceState="n.status"/>
@@ -209,7 +212,7 @@ let tonnetzPlan = {
         <g>
             ${tonnetzLike.subtemplateTrichord}  
             ${tonnetzLike.subtemplateDichord} 
-            ${tonnetzLike.subtemplateNote}
+            ${tonnetzLike.subtemplateNote} 
         </g>
     `
 }
@@ -318,7 +321,7 @@ let chickenWire = {
     extends: tonnetzLike,
     mixins: [traceHandler],
     template: `
-        <g>
+        <g>  
         ${tonnetzLike.subtemplateNote} 
         ${tonnetzLike.subtemplateDichord} 
         ${tonnetzLike.subtemplateTrichord}

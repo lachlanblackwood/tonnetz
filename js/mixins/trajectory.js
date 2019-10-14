@@ -120,24 +120,38 @@ let traceHandler = {
                 }
             }
         },
-        addToTrajectory: function(pitches){
+        addToTrajectory: function(pitches,origin){
             if(this.trace){
                 console.log(pitches);
-                // First version: consider multi-pitched events as successive events
-                for(pitch of pitches){
-                    //Check if the note is reachable in this Tonnetz
-                    let noteNumber = mod(pitch - 9,12);
-                    let tonnetzGCD = this.intervals.reduce(gcd,12);
-                    if(!(noteNumber%tonnetzGCD)){
-                        // The reference is the last node, or (0,0) if this is the first node
-                        let reference = this.trajectory.length > 0 ? this.trajectory[this.trajectory.length-1] : {x:0,y:0};
-                        let node = this.closestNode(reference,noteNumber);
-                        this.trajectory.push(node);
-                        this.active.push(node);
-                        this.visited.add(this.genKey([node]));
-                        this.$parent.$emit('pan',logicalToSvg(node));
-                    }else{
-                        console.log("Unreachable note")
+                if(origin){
+                    // Find which of the origin nodes corresponds to the pitch
+                    let noteNumber = mod(pitches[0]-9,12);
+                    for(node of origin.id){
+                        if(mod(this.nodesToPitches([node])[0]-57,12)==noteNumber){
+                            this.trajectory.push(node);
+                            this.active.push(node);
+                            this.visited.add(this.genKey([node]));
+                            this.$parent.$emit('pan',logicalToSvg(node));
+                            break
+                        }
+                    }
+                }else{
+                    // First version: consider multi-pitched events as successive events
+                    for(pitch of pitches){
+                        //Check if the note is reachable in this Tonnetz
+                        let noteNumber = mod(pitch - 9,12);
+                        let tonnetzGCD = this.intervals.reduce(gcd,12);
+                        if(!(noteNumber%tonnetzGCD)){
+                            // The reference is the last node, or (0,0) if this is the first node
+                            let reference = this.trajectory.length > 0 ? this.trajectory[this.trajectory.length-1] : {x:0,y:0};
+                            let node = this.closestNode(reference,noteNumber);
+                            this.trajectory.push(node);
+                            this.active.push(node);
+                            this.visited.add(this.genKey([node]));
+                            this.$parent.$emit('pan',logicalToSvg(node));
+                        }else{
+                            console.log("Unreachable note")
+                        }
                     }
                 }
                 this.updateChords();
@@ -162,18 +176,25 @@ let traceHandler = {
             if(this.trace && midiEvent.getChannel() !== 9){ // Ignore drums events
                 let index = record.length
                 if(midiEvent.isNoteOn()){
-                    this.noteBuffer.push(midiEvent.getNote())
-                    if(this.chordTimer){clearTimeout(this.chordTimer)};
-                    let this2 = this;
-                    this.chordTimer = setTimeout( () => {
-                        this2.addToTrajectory(this2.noteBuffer); 
-                        this2.noteBuffer.length=0; // Clear the buffer
-                    }, delay)
-                    //this.addToTrajectory([midiEvent.getNote()]);
+                    if(this.isTonnetzOrigin(midiEvent.origin)){
+                        this.addToTrajectory([midiEvent.getNote()],midiEvent.origin)
+                    }else{
+                        this.noteBuffer.push(midiEvent.getNote())
+                        if(this.chordTimer){clearTimeout(this.chordTimer)};
+                        let this2 = this;
+                        this.chordTimer = setTimeout( () => {
+                            this2.addToTrajectory(this2.noteBuffer); 
+                            this2.noteBuffer.length=0; // Clear the buffer
+                            }, delay)
+                        //this.addToTrajectory([midiEvent.getNote()]);
+                    }
                 }else if(midiEvent.isNoteOff()){
                     setTimeout( () => {this.removeActive([midiEvent.getNote()])}, delay );
                 }
             }
+        },
+        isTonnetzOrigin(origin){
+            return origin && origin.parent === this;
         }
     }
 }

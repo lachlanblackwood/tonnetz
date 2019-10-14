@@ -15,6 +15,10 @@ let clickToPlayWrapper = {
             type:Boolean,
             required:false,
             default:false
+        },
+        id : {
+            required:false,
+            default:undefined
         }
     },
     data: function (){return{
@@ -25,7 +29,7 @@ let clickToPlayWrapper = {
             if(this.toggle){
                 if(!this.clicked){
                     this.clicked=true;
-                    midiBus.$emit('note-on',this.pitches);
+                    midiBus.$emit('note-on',this.pitches,{parent:this.$parent,id:this.id});
                 }else{
                     this.clicked=false;
                     midiBus.$emit('note-off',this.pitches);
@@ -33,7 +37,7 @@ let clickToPlayWrapper = {
             }else{
                 if(!this.clicked){
                     this.clicked=true;
-                    midiBus.$emit('note-on',this.pitches);
+                    midiBus.$emit('note-on',this.pitches,{parent:this.$parent,id:this.id});
                 }
             }
         },
