@@ -10,7 +10,9 @@ let traceHandler = {
     data: function(){return {
         trajectory : [], // The array of the traversed note nodes. A trajectory element should be a pair of a MIDI event and its associated position
         active: [],
-        visited: new Set() // The string keys of all visited nodes and chords
+        visited: new Set(), // The string keys of all visited nodes and chords
+        noteBuffer: [], // The notes waiting to be processed
+        chordTimer: undefined // The timer until bufferised notes are processed as a chord
     }},
     computed:{
         // The array of nodes (resp dichords and trichords) to be rendered, paired with their status
@@ -38,6 +40,9 @@ let traceHandler = {
         intervals : function(){// If intervals changes, the current trajectory is no longer valid
             this.resetTrajectory();
         }
+    },
+    mounted(){
+        midiBus.connect(this.midiDispatch);
     },
     methods:{
         // Tells whether a given node is activated (2), was activated earlier (1) or is not (0), or lets the node decide (-1)
@@ -117,6 +122,7 @@ let traceHandler = {
         },
         addToTrajectory: function(pitches){
             if(this.trace){
+                console.log(pitches);
                 // First version: consider multi-pitched events as successive events
                 for(pitch of pitches){
                     //Check if the note is reachable in this Tonnetz
@@ -152,12 +158,20 @@ let traceHandler = {
             }
         },
         midiDispatch: function(midiEvent){
+            const delay = 30 // Notes within 30ms of each other are part of a chord
             if(this.trace){
                 let index = record.length       
                 if(midiEvent.isNoteOn()){
-                    this.addToTrajectory([midiEvent.getNote()]);
+                    this.noteBuffer.push(midiEvent.getNote())
+                    if(this.chordTimer){clearTimeout(this.chordTimer)};
+                    let this2 = this;
+                    this.chordTimer = setTimeout( () => {
+                        this2.addToTrajectory(this2.noteBuffer); 
+                        this2.noteBuffer.length=0; // Clear the buffer
+                    }, delay)
+                    //this.addToTrajectory([midiEvent.getNote()]);
                 }else if(midiEvent.isNoteOff()){
-                    this.removeActive([midiEvent.getNote()]);
+                    setTimeout( () => {this.removeActive([midiEvent.getNote()])}, delay );
                 }
             }
         }
