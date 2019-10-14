@@ -159,8 +159,8 @@ let traceHandler = {
         },
         midiDispatch: function(midiEvent){
             const delay = 30 // Notes within 30ms of each other are part of a chord
-            if(this.trace){
-                let index = record.length       
+            if(this.trace && midiEvent.getChannel() !== 9){ // Ignore drums events
+                let index = record.length
                 if(midiEvent.isNoteOn()){
                     this.noteBuffer.push(midiEvent.getNote())
                     if(this.chordTimer){clearTimeout(this.chordTimer)};

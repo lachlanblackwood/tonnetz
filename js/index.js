@@ -118,14 +118,16 @@ proto = new Vue({
         
         //Handler for Midi events coming from JZZ
         midiHandler: function (midiEvent){
-            noteIndex = (midiEvent.getNote()+3) %12
-            if(midiEvent.isNoteOn()){
-                this.notes[noteIndex].count++;
-            }else if(midiEvent.isNoteOff()){
-                if(this.notes[noteIndex].count > 0){
-                    this.notes[noteIndex].count--;
-                }else{
-                    console.log('Warning: ignored unbalanced noteOff event', midiEvent);
+            if(midiEvent.getChannel() !== 9){ // Ignore drums events
+                noteIndex = (midiEvent.getNote()+3) %12
+                if(midiEvent.isNoteOn()){
+                    this.notes[noteIndex].count++;
+                }else if(midiEvent.isNoteOff()){
+                    if(this.notes[noteIndex].count > 0){
+                        this.notes[noteIndex].count--;
+                    }else{
+                        console.log('Warning: ignored unbalanced noteOff event', midiEvent);
+                    }
                 }
             }
         },
