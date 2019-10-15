@@ -139,14 +139,17 @@ let tonnetzLike = {
     methods: {
         // Converts an array of nodes to an array of the corresponding notes
         node2Notes: function (nodes){
-            return nodes.map(node => this.notes[mod(-node.x*this.intervals[0]+node.y*this.intervals[2],12)])
+            return mapOrApply(node => 
+                this.notes[mod(-node.x*this.intervals[0]+node.y*this.intervals[2],12)]
+                )(nodes);
         },
         // Converts an array of nodes to an array of the corresponding Midi pitches
-        nodesToPitches: function(nodes){
-            return nodes.map(nodeIt => {
-                let x = 81-nodeIt.x*this.intervals[0]+nodeIt.y*(this.intervals[2]-12)
-                return Math.max(x,mod(x,12))
-            });
+        nodesToPitches: function (nodes){
+            return mapOrApply(node => {
+                let x = 81 - node.x * this.intervals[0]
+                           + node.y * (this.intervals[2]-12);
+                return Math.max(x,mod(x,12)) // Bound to valid MIDI values
+            })(nodes)
         },
         // Returns the svg transform string corresponding to a node's position
         position: function(node){

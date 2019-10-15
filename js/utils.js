@@ -70,4 +70,15 @@ function arrayEquals(a, b) {
     return true;
 }
 
+// Turns a unary function into an array compatible version
+function mapOrApply(f){
+  return (args) => {
+      if (Array.isArray(args)){
+          return args.map(f);
+      }else{
+          return f(args);
+      }
+  }
+}
+
 var Tonnetz_utils = true
