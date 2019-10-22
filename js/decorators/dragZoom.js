@@ -103,7 +103,7 @@ let dragZoomSvg = {
                     tx:- targetPosition.x + this.width/this.scale/2,
                     ty:- targetPosition.y + this.height/this.scale/2
                 };
-                TweenLite.to(this,1,newPos);
+                TweenLite.to(this,.3,newPos);
             }
         }
     },
