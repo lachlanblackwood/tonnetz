@@ -87,7 +87,7 @@ let playRecorder = {
         },
         translate: function(translate=1){
             this.stop()
-            this.translateTrajectory(this.SMF,translate);
+            this.translateTrajectory(translate);
             // Does the player really need to be reassigned ?
             this.player=this.SMF.player();
             this.player.connect(midiBus.midiThru);
