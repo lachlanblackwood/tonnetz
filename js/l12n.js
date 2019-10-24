@@ -95,7 +95,9 @@ const strings = {
             translate: 'Translation',
             export: 'Exporter',
             connected: "Ce Tonnetz n'est pas connexe et ne contient pas toutes les notes.",
-            notes: ['La', 'La♯', 'Si', 'Do', 'Do♯', 'Ré', 'Ré♯', 'Mi', 'Fa', 'Fa♯', 'Sol', 'Sol♯']
+            notes: ['La', 'La♯', 'Si', 'Do', 'Do♯', 'Ré', 'Ré♯', 'Mi', 'Fa', 'Fa♯', 'Sol', 'Sol♯'],
+            interval: "Intervalle",
+            content: "Contenu",
         },
         hi: {
             title: 'सरगम',
