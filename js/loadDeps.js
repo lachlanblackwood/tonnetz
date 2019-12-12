@@ -9,7 +9,7 @@ let mydir= path.split('/').slice(0, -1).join('/')+'/';  // remove last filename 
 fallback.load({
     //Vue: Main framework for reactive elements
     Vue: [
-        'https://cdn.jsdelivr.net/npm/vue/dist/vue.js',
+        'https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js',
         mydir+'../lib/Vue/vue.min.js'
     ],
     //JZZ: Midi library
