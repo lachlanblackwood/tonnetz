@@ -97,6 +97,9 @@ fallback.load({
     'Tonnetz_ascii':[
         mydir+'components/asciiBindings.js'
     ],
+    'Tonnetz_transformations':[
+        mydir+'components/transformations.js'
+    ]
 },{
     shim:{
         // Wait for JZZ to be loaded before loading its submodules
@@ -106,7 +109,7 @@ fallback.load({
         'JZZ.MIDI.SMF': ['JZZ'],
         'Tonnetz_tonnetzLike': ['Tonnetz_mixins'],
         'Tonnetz_clockOctave': ['Tonnetz_mixins'],
-        'Tonnetz_playRecorder': ['Tonnetz_midiBus', 'Tonnetz_loader','Tonnetz_utils'],
+        'Tonnetz_playRecorder': ['Tonnetz_midiBus', 'Tonnetz_loader','Tonnetz_utils','Tonnetz_transformations'],
         'Tonnetz_midiBus': ['Vue','JZZ'],
         'Tonnetz_ascii': ['Tonnetz_midiBus'],
         'Tonnetz_tonnetzView': ['Tonnetz_tonnetzLike','Tonnetz_infoPanel']
