@@ -153,15 +153,14 @@ let traceHandler = {
             }
             return false;
         },
-        placeFallback: function(notes){
-            notes = new Set(notes);
+        placeFallback: function(pitches){
+            notes = new Set(pitches);
             let success = false
             while(!success){
                 // First version: consider distance from 2 arbitrary notes of the chords
                 let note = notes.values().next().value;
                 let reference = this.trajectory.length > 0 ? this.trajectory[this.trajectory.length-1] : {x:0,y:0}
                 let node = this.closestNode(reference, note);
-
                 notes.delete(note);
                 [positions,success] = this.placeRestOfChord({note:note,coords:node},notes);
                 for(position of positions){
@@ -170,7 +169,7 @@ let traceHandler = {
             }
         },
         placeRestOfChord: function(positionned,notes){
-            positions = [positionned]
+            positions = Array.isArray(positionned) ? positionned : [positionned];
             sizeBefore = notes.size+1; //Ensure that at least one iteration is run
             while(notes.size<sizeBefore){
                 sizeBefore = notes.size;
@@ -178,7 +177,7 @@ let traceHandler = {
                     for(position of positions){
                         newPosition = this.placeNextToNote(note,position);
                         if(newPosition){
-                            positions.push(newPosition)
+                            positions[note] = newPosition
                             notes.delete(note) //!\ Does this mess with iteration ?
                             break;
                         }
@@ -207,29 +206,37 @@ let traceHandler = {
         placeNextToChord: function(notes,positions){
             // First check for common notes
             // TODO: keep all common notes
-            if(pos = positions.find(position => notes.has(position.note))){
-                notes=new Set(notes);
-                notes.delete(pos.note);
-                [positions,success] = this.placeRestOfChord(pos,notes);
-                if(success){
-                    for(position of positions){
-                        this.activateNode(position.coords);
-                    }
-                    return true;
-                }else{
-                    return false
-                }
+            let matchingPos = positions.filter(position => notes.has(position.note))
+            if(matchingPos.length == 0){
+                // TODO: Check for distance 1
+                return false
             }
-            // TODO: Check for distance 1
-            return false
+            notes = new Set(notes)
+            for(pos of matchingPos){
+                notes.delete(pos.note)
+            }
+            [positionMap,success] = this.placeRestOfChord(matchingPos,notes);
+
+            if(success){
+                for(position of positions){
+                    this.activateNode(position.coords);
+                }
+                return true;
+            }else{
+                return false;
+            }
         },
         placeChord: function(pitches){
             // Don't bother placing pitches that are not on the Tonnetz
             let notes = new Set(pitches.map(pitch => mod(pitch - 9,12)).filter(note => this.isReachable(note)));
             if(notes.size > 0){
-                if(! this.placeRecursive(notes)){
-                    this.placeFallback(notes);
+                positionMap,success = this.placeRecursive(notes)
+                if(! success){
+                    positionMap = this.placeFallback(notes);
                 }
+            }
+            for(pitch of pitches){
+                this.activateNode(positionMap.get(modulo(pitch,12)))
             }
             this.updateChords();
         },
@@ -287,14 +294,15 @@ let traceHandler = {
             //Override the current timer
             if(this.chordTimer){clearTimeout(this.chordTimer)};
             let this2 = this;
-            this.chordTimer = setTimeout( () => {
-                this2.addToTrajectory(this2.noteBuffer); 
-                this2.noteBuffer.length=0; // Clear the buffer
-                for(noteOff of this2.noteOffBuffer){
-                    this2.removeActive([noteOff]);
-                }
-                this2.noteOffBuffer.length=0;
-                }, this.delay)
+            this.chordTimer = setTimeout( () => this2.processBuffer(), this.delay)
+        },
+        processBuffer: function(){
+            this.addToTrajectory(this.noteBuffer); 
+            this.noteBuffer.length=0; // Clear the buffer
+            for(noteOff of this.noteOffBuffer){
+                this.removeActive([noteOff]);
+            }
+            this.noteOffBuffer.length=0;
         },
         isTonnetzOrigin(origin){
             return origin && origin.parent === this;
