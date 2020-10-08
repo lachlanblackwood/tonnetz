@@ -1,3 +1,4 @@
+var trajectoryBus=[];
 
 // Mixin that groups the trajectory functionnality. Calls on TonnetzLike properties and methods
 let traceHandler = {
@@ -81,9 +82,17 @@ let traceHandler = {
             }
         },
         resetTrajectory: function(){
+            // Remove the old trajectory from the trajectory bus
+            let index = trajectoryBus.findIndex(e => e[0]===this.trajectory);
+            if(index!==-1){
+                trajectoryBus.splice(index);
+            }
+            // Setup new trajectory
             this.trajectory = [];
             this.active = [];
             this.visited.clear();
+            // Track new trajectory in bus
+            trajectoryBus.push([this.trajectory,this]);
         },
         //Returns the node matching the note closest to the provided node
         closestNode(node,note){
@@ -230,7 +239,7 @@ let traceHandler = {
             // Don't bother placing pitches that are not on the Tonnetz
             let notes = new Set(pitches.map(pitch => mod(pitch - 9,12)).filter(note => this.isReachable(note)));
             if(notes.size > 0){
-                positionMap,success = this.placeRecursive(notes)
+                let positionMap,success = this.placeRecursive(notes)
                 if(! success){
                     positionMap = this.placeFallback(notes);
                 }
