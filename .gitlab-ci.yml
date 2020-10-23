@@ -7,7 +7,8 @@ pages:
   artifacts:
     paths:
     - public  
-  only: master
+  only: 
+    - master
 
 experiment:
   stage: deploy
@@ -18,4 +19,5 @@ experiment:
   artifacts:
     paths:
     - public/experiment
-  only: Experiment2
+  only: 
+    - Experiment2
