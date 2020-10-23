@@ -1,3 +1,7 @@
+workflow:
+  rules:
+    - if: '$CI_COMMIT_BRANCH'
+
 pages:
   stage: deploy
   script:
@@ -7,3 +11,15 @@ pages:
   artifacts:
     paths:
     - public
+  if: '$CI_COMMIT_BRANCH == "master"'
+
+experiment:
+  stage: deploy
+  script:
+  - mkdir .public
+  - cp -r * .public
+  - mv .public public/experiment
+  artifacts:
+    paths:
+    - public/experiment
+  if: '$CI_COMMIT_BRANCH == "Experiment2"'
