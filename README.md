@@ -1,3 +1,7 @@
+# Using the software
+
+Either go to https://guichaoua.gitlab.io/web-hexachord/ or clone and host it on your own (a basic python http server should suffice).
+
 # Credit
 
 Conceived and developped by Corentin Guichaoua and Moreno Andreatta
