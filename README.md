@@ -1,6 +1,12 @@
 # Using the software
 
-Either go to https://guichaoua.gitlab.io/web-hexachord/ or clone and host it on your own (a basic python http server should suffice).
+Online: go to https://guichaoua.gitlab.io/web-hexachord/ 
+
+Locally, limited support: clone the repository and open the index.html page. Some functionalities (such as loading the example MIDI) may not work this way.
+
+Locally, full support: clone, then run a basic http server on your machine from the cloned directory, e.g., a python (≥3) server: `python -m http.server`  (access the page through `localhost:8000` with default settings).
+
+Truly locally: the latter 2 methods still require Internet access to load the required libraries. Running the `cacheLibraries.sh` script while connected to the Internet should ensure that the server method still works once offline.
 
 # Credit
 
