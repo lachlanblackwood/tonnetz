@@ -62,7 +62,7 @@ proto = new Vue({
     el: '#proto',
     components: {
         clockOctave,songLoader,pianoKeyboard,playRecorder,tonnetzView,
-        languageSelector,intervalTable,creditScreen,asciiBindings
+        languageSelector,intervalTable,creditScreen,asciiBindings,chordDisplay
     },
     data: {
         // The type of representation for the main window ('tonnetz' or 'chicken')

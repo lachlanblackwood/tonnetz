@@ -171,3 +171,5 @@ text { fill: #aaa; font-size: 14px; text-anchor: middle; dominant-baseline: math
 .piano-wrap { position: relative; height: 151px; overflow: hidden; }
 #piano { position: absolute; left: 50%; margin-left: -740px; }
 #piano .inner { text-align: center; display: block; font-size: 14px; margin-top: 4px; }
+
+#chord { text-align: center; height: 30px; font-size: 20px; position: relative; top: 7px;}
