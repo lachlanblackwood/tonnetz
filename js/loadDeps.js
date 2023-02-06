@@ -99,6 +99,9 @@ fallback.load({
     ],
     'Tonnetz_transformations':[
         mydir+'components/transformations.js'
+    ],
+    'Tonnetz_chord':[
+	mydir+'components/chordDisplay.js'
     ]
 },{
     shim:{
@@ -112,7 +115,8 @@ fallback.load({
         'Tonnetz_playRecorder': ['Tonnetz_midiBus', 'Tonnetz_loader','Tonnetz_utils','Tonnetz_transformations'],
         'Tonnetz_midiBus': ['Vue','JZZ'],
         'Tonnetz_ascii': ['Tonnetz_midiBus'],
-        'Tonnetz_tonnetzView': ['Tonnetz_tonnetzLike','Tonnetz_infoPanel']
+        'Tonnetz_tonnetzView': ['Tonnetz_tonnetzLike','Tonnetz_infoPanel'],
+	'Tonnetz_chord': ['Tonnetz_clockOctave']
     }
 }
 )

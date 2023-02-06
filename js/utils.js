@@ -81,4 +81,35 @@ function mapOrApply(f){
   }
 }
 
+// Dictionary of index to note name
+const noteNames = {
+	0: 'A',
+	1: 'A#',
+	2: 'B',
+	3: 'C',
+	4: 'C#',
+	5: 'D',
+	6: 'D#',
+	7: 'E',
+	8: 'F',
+	9: 'F#',
+	10: 'G',
+	11: 'G#'
+}
+
+const intervalNames = {
+	0: '0',
+	1: 'b9',
+	2: '9',
+	3: '0',
+	4: '0',
+	5: 'sus4',
+	6: 'b5',
+	7: '0',
+	8: '#5',
+	9: '6',
+	10: '7',
+	11: '△7'
+}
+
 var Tonnetz_utils = true

@@ -36,12 +36,12 @@
 
                 <div class="col-2" v-cloak>
                     <clock-octave v-bind:notes="notes" v-bind:height="400" v-bind:width="400" v-bind:intervals="1"></clock-octave>
+		    <chord-display v-bind:notes="notes"></chord-display>
                     <clock-octave v-bind:notes="notes" v-bind:height="400" v-bind:width="400" v-bind:intervals="7"></clock-octave>
                 </div>
             </div>
             <play-recorder @reset-notes="resetNotes"></play-recorder>
             <ascii-bindings></ascii-bindings>
-
 
             <div class="piano-wrap"><piano-keyboard :id="'piano'"></piano-keyboard></div>
 
