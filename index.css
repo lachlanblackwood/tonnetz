@@ -109,7 +109,7 @@ text { fill: #aaa; font-size: 14px; text-anchor: middle; dominant-baseline: math
 .tonnetz { border: 1px solid #323248; border-radius: 6px 6px 0 0; box-sizing: border-box; }
 .clock { stroke-width: 2px; margin-bottom: 10px;  }
 .clock text { font-weight: 700; font-size: 24px}
-.noteClock circle { r: 24 }
+.noteClock circle { r: 24px }
 
 .activeDichord, .activeTrichord { stroke: #323248; stroke-width: 2; fill: #ccc; }
 .activeNode + text { fill: white; }
@@ -121,13 +121,13 @@ text { fill: #aaa; font-size: 14px; text-anchor: middle; dominant-baseline: math
 .visitedTrichord { fill : lightgreen; }
 
 /*Tonnetz-specific stylings */
-.tonnetzNote circle { r: 12 }
-.tonnetzDichord circle { r: 2}
+.tonnetzNote circle { r: 12px}
+.tonnetzDichord circle { r: 2px}
 /* .tonnetzTrichord */
 /* CWT-specific stylings*/
 /* .chickenNote */
-.chickenDichord circle { r: 2}
-.chickenTrichord circle { r: 10 }
+.chickenDichord circle { r: 2px}
+.chickenTrichord circle { r: 10px}
 .chickenTrichord text {font-size: 70%}
 .chickenTrichord.minorish text {font-style: italic}
 
