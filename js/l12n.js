@@ -25,6 +25,8 @@ const strings = {
             export: 'Export',
             connected: 'This Tonnetz is non-connected and doesn’t contain every note.',
             notes: ['A', 'A♯', 'B', 'C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯'],
+            intervalNames : ['', 'b9', '9', '', '', 'sus4', 'b5', '', '#5', '6', '7', '△7'],
+            minorSymbol: 'm',
             infos:{
                 tonnetz: 'Placeholder explanation for the <i>Tonnetz</i>',
                 chicken: 'Placeholder explanation for the Chicken-Wire'
@@ -122,7 +124,7 @@ const strings = {
         if(!string){
             console.warn(`No localisation string for "${key}", defaulting to English`)
             string = resolve(key,this.data.en);
-            if(!string){
+            if(string===undefined){
                 console.error(`Unknown localisation string "${key}"`)
                 string = "<Missing>"
             }
