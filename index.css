@@ -50,7 +50,7 @@ h2 { text-align: center; text-transform: uppercase; color: #aaa; margin: 0 0 20p
     border-radius: 5px;
     transition: width .5s ease-out, height .5s ease-out;
     width: 23px; /* Fixed width and height as transition won't occur otherwise */
-    height: 9px;
+    height: 12px;
 }
 .info.infoExpanded{
     width: 80%;
@@ -172,4 +172,4 @@ text { fill: #aaa; font-size: 14px; text-anchor: middle; dominant-baseline: cent
 #piano { position: absolute; left: 50%; margin-left: -740px; }
 #piano .inner { text-align: center; display: block; font-size: 14px; margin-top: 4px; }
 
-#chord { text-align: center; height: 30px; font-size: 20px; position: relative; top: 7px;}
+#chord { font-weight: 700; text-align: center; height: 30px; font-size: 20px; position: relative; top: 0px;}
