@@ -137,6 +137,8 @@ text { fill: #aaa; font-size: 14px; text-anchor: middle; dominant-baseline: math
     border-radius: 20px; font-weight: 700; }
 .key-selector .activeNode { color: white; }
 
+.activeNode[data-key="1"] { fill: #e66438; stroke: #e66438; background: #e66438; border-color: #e66438; }
+.activeNode[data-key="2"]  { fill: #cc3450; stroke: #cc3450; background: #cc3450; border-color: #cc3450; }
 .activeNode[data-key="3"]  { fill: #b30469; stroke: #b30469; background: #b30469; border-color: #b30469; }
 .activeNode[data-key="4"] { fill: #822b9b; stroke: #822b9b; background: #822b9b; border-color: #822b9b; }
 .activeNode[data-key="5"]  { fill: #5053cd; stroke: #5053cd; background: #5053cd; border-color: #5053cd; }
@@ -147,8 +149,6 @@ text { fill: #aaa; font-size: 14px; text-anchor: middle; dominant-baseline: math
 .activeNode[data-key="10"]  { fill: #76a90d; stroke: #76a90d; background: #76a90d; border-color: #76a90d; }
 .activeNode[data-key="11"] { fill: #e6bd00; stroke: #e6bd00; background: #e6bd00; border-color: #e6bd00; }
 .activeNode[data-key="0"]  { fill: #ff941f; stroke: #ff941f; background: #ff941f; border-color: #ff941f; }
-.activeNode[data-key="1"] { fill: #e66438; stroke: #e66438; background: #e66438; border-color: #e66438; }
-.activeNode[data-key="2"]  { fill: #cc3450; stroke: #cc3450; background: #cc3450; border-color: #cc3450; }
 
 .record { width: 100%; margin: 12px 20px 32px; text-align: center; }
 .record button { border: none; background: #ddd; border-radius: 4px; line-height: 32px;
