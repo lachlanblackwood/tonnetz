@@ -81,4 +81,19 @@ function mapOrApply(f){
   }
 }
 
+const colorMap = {
+    0: "#ff941f",
+    1: "#e66438",
+    2: "#cc3450",
+    3: "#b30469",
+    4: "#822b9b",
+    5: "#5053cd",
+    6: "#1f7aff",
+    7: "#258dab",
+    8: "#2ba058",
+    9: "#31b304",
+    10: "#76a900",
+    11: "#e6bd00",
+}
+
 var Tonnetz_utils = true
