@@ -4,7 +4,7 @@ let asciiBindings = {
     props:{
         bindMap:{
             default: function(){return {
-                W:'C5', S:'C#5', X:'D5', D:'D#5', C:'E5', V:'F5',
+                Z:'C5', S:'C#5', X:'D5', D:'D#5', C:'E5', V:'F5',
                 G:'F#5', B:'G5', H:'Ab5', N:'A5', J:'Bb5', M:'B5'
             }}
         }
