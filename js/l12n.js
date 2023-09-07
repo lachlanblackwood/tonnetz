@@ -56,7 +56,7 @@ const strings = {
             Thanks to USIAS / University of Strasbourg / IRMA / IRCAM for financial support.</span>
             
             <h2>Citation</h2>
-            <span><a href="url">www.gitlab.com/guichaoua/web-hexachord</a> <br>
+            <span><a href="https://www.gitlab.com/guichaoua/web-hexachord">www.gitlab.com/guichaoua/web-hexachord</a> <br>
             Academic paper to come, please check back later</span>
             `,
             creditsButton: "Credits",
