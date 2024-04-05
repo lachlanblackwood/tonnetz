@@ -150,7 +150,7 @@ text { fill: #aaa; font-size: 14px; text-anchor: middle; dominant-baseline: cent
 .activeNode[data-key="11"] { fill: #e6bd00; stroke: #e6bd00; background: #e6bd00; border-color: #e6bd00; }
 .activeNode[data-key="0"]  { fill: #ff941f; stroke: #ff941f; background: #ff941f; border-color: #ff941f; }
 
-.record { width: 100%; margin: 12px 20px 32px; text-align: center; }
+.record { width: 95%; margin: 12px 20px 32px; text-align: center; }
 .record button { border: none; background: #ddd; border-radius: 4px; line-height: 32px;
     padding: 0 16px; margin: 4px; font-size: 16px; transition: background .2s; }
 .record button:hover, .record button:focus { background: #bbb; }
