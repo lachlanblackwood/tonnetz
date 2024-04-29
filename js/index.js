@@ -74,13 +74,14 @@ proto = new Vue({
         //     return {text: note_name_local, id: strings.en.notes[index], count: 0};
         // }),
         // Synthetiser engine
-        synth: JZZ.synth.Tiny(),
-        // synth:JZZ.synth.MIDIjs({ 
-        //     //TODO: Use a soundfont from our own server
-        //     soundfontUrl: "https://raw.githubusercontent.com/mudcube/MIDI.js/master/examples/soundfont/", 
-        //     instrument: "acoustic_grand_piano" })
-        //         .or(function(){ proto.loaded(); alert('Cannot load MIDI.js!\n' + this.err()); })
-        //         .and(function(){ proto.loaded(); }),
+        // synth: JZZ.synth.Tiny(),
+        synth:JZZ.synth.MIDIjs({ 
+            soundfontUrl: "./soundfonts/", 
+            instrument: "acoustic_grand_piano" })
+                // TODO: add handling for load message here
+                // .or(function(){ proto.loaded(); alert('Cannot load MIDI.js!\n' + this.err()); })
+                // .and(function(){ proto.loaded(); })
+                ,
 
         // Should trajectory drawing be active?
         trace: false,
