@@ -10,4 +10,10 @@ var midiBus=new Vue({
     }
 });
 
+function connect_out(){
+    out = JZZ().openMidiOut()
+    midiBus.midiThru.connect(out)
+    midiBus.midiThru.disconnect(proto.synth)
+}
+
 var Tonnetz_midiBus = true;
