@@ -121,7 +121,7 @@ const strings = {
     },
     get(key){
         let string = resolve(key,this.data[this.activeLang]);
-        if(!string){
+        if(!string===undefined){
             console.warn(`No localisation string for "${key}", defaulting to English`)
             string = resolve(key,this.data.en);
             if(string===undefined){
