@@ -195,7 +195,7 @@ let traceHandler = {
             }
             return [positions,(notes.size === 0)];
         },
-        placeNextToNote: function(note,position){
+        placeNextToNote: function(note, position){
             function offset(coords,delta){
                 return {x:coords.x+delta.x,y:coords.y+delta.y}
             }
@@ -245,7 +245,7 @@ let traceHandler = {
                 }
             }
             for(pitch of pitches){
-                this.activateNode(positionMap.get(modulo(pitch,12)))
+                this.activateNode(positionMap.get(mod(pitch,12)))
             }
             this.updateChords();
         },
