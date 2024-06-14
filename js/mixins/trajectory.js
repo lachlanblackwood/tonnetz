@@ -1,4 +1,7 @@
 var trajectoryBus=[];
+var _count1 = 0;
+var _countDel = 0;
+var __trajectory;
 
 // Mixin that groups the trajectory functionnality. Calls on TonnetzLike properties and methods
 let traceHandler = {
@@ -49,6 +52,7 @@ let traceHandler = {
     },
     mounted(){
         midiBus.connect(this.midiDispatch);
+        __trajectory = this; // Easy debug acces
     },
     methods:{
         // Tells whether a given node is activated (2), was activated earlier (1) or is not (0), or lets the node decide (-1)
@@ -90,6 +94,7 @@ let traceHandler = {
             // Setup new trajectory
             this.trajectory = [];
             this.active = [];
+            this.lastChords = [];
             this.visited.clear();
             // Track new trajectory in bus
             trajectoryBus.push([this.trajectory,this]);
@@ -114,7 +119,7 @@ let traceHandler = {
                     }
                 }
             }
-            console.log("Couldn't find closest neighbour");
+            console.warn("Couldn't find closest neighbour");
         },
         // Marks active chords as visited
         updateChords: function(){
@@ -154,9 +159,12 @@ let traceHandler = {
             }
         },
         placeRecursive: function(notes){
+            // Place with reference to a previous chord, trying from the most recent first
             for(it = this.lastChords.length-1 ; it>0 ;it--){
                 let prevPositions = this.lastChords[it].map(node => ({note:this.node2Notes(node).id,coords:node}))
                 if(this.placeNextToChord(notes,prevPositions)){
+                    console.log(`Placed chord ${_count1} with reference to chord n°${it}`);
+                    console.log(this.lastChords[it])
                     return true;
                 }
             }
@@ -171,29 +179,31 @@ let traceHandler = {
                 let reference = this.trajectory.length > 0 ? this.trajectory[this.trajectory.length-1] : {x:0,y:0}
                 let node = this.closestNode(reference, note);
                 notes.delete(note);
-                [positions,success] = this.placeRestOfChord({note:note,coords:node},notes);
-                for(position of positions){
-                    this.activateNode(position.coords);
-                }
+                this.activateNode(node);
+                success = this.placeRestOfChord({note:note,coords:node},notes);
             }
+            return success
         },
         placeRestOfChord: function(positionned,notes){
-            positions = Array.isArray(positionned) ? positionned : [positionned];
-            sizeBefore = notes.size+1; //Ensure that at least one iteration is run
-            while(notes.size<sizeBefore){
-                sizeBefore = notes.size;
+            let positions = Array.isArray(positionned) ? positionned : [positionned];
+            let hasConverged = false;
+            while(hasConverged){
+                let placedThisIteration = new Set()
                 for(note of notes){
                     for(position of positions){
-                        newPosition = this.placeNextToNote(note,position);
-                        if(newPosition){
+                        let newPosition = this.placeNextToNote(note, position);
+                        if(newPosition !== undefined){
                             positions[note] = newPosition
-                            notes.delete(note) //!\ Does this mess with iteration ?
+                            this.activateNode(newPosition.coords)
+                            placedThisIteration.add(note)
                             break;
                         }
                     }
                 }
+                notes = notes.difference(placedThisIteration)
+                hasConverged = (placedThisIteration.size == 0)
             }
-            return [positions,(notes.size === 0)];
+            return (notes.size == 0);
         },
         placeNextToNote: function(note, position){
             function offset(coords,delta){
@@ -212,46 +222,43 @@ let traceHandler = {
             }
             return undefined;
         },
-        placeNextToChord: function(notes,positions){
+        placeNextToChord: function(notes, positions){
             // First check for common notes
             // TODO: keep all common notes
             let matchingPos = positions.filter(position => notes.has(position.note))
+            console.log(`Found ${matchingPos.length} common notes`)
             if(matchingPos.length == 0){
                 // TODO: Check for distance 1
                 return false
             }
-            notes = new Set(notes)
             for(pos of matchingPos){
-                notes.delete(pos.note)
-            }
-            [positionMap,success] = this.placeRestOfChord(matchingPos,notes);
-
-            if(success){
-                for(position of positions){
-                    this.activateNode(position.coords);
+                if(notes.has(pos.note)){ // Only activate for the first match
+                    notes.delete(pos.note)
+                    this.activateNode(pos.coords);
                 }
-                return true;
-            }else{
-                return false;
             }
+            success = this.placeRestOfChord(matchingPos,notes);
+
+            return success
         },
         placeChord: function(pitches){
             // Don't bother placing pitches that are not on the Tonnetz
             let notes = new Set(pitches.map(pitch => mod(pitch - 9,12)).filter(note => this.isReachable(note)));
+            let positionMap;
             if(notes.size > 0){
-                let positionMap,success = this.placeRecursive(notes)
+                success = this.placeRecursive(notes)
                 if(! success){
-                    positionMap = this.placeFallback(notes);
+                    success = this.placeFallback(notes);
+                }
+                if(! success){
+                    console.warn("Failed to place notes", notes);
                 }
             }
-            for(pitch of pitches){
-                this.activateNode(positionMap.get(mod(pitch,12)))
-            }
-            this.updateChords();
+            console.log(`Placed chord ${_count1}`)
+            _count1 += 1
         },
-        addToTrajectory: function(pitches,origin){
+        addToTrajectory: function(pitches, origin){
             if(this.trace){
-                console.log(pitches);
                 if(origin){
                     this.placeWithOrigin(pitches[0],origin) // Pitches with origins are not batched
                 }else{
@@ -262,6 +269,7 @@ let traceHandler = {
         },
         removeActive: function(pitches){
             if(this.trace){
+                _countDel += 1;
                 for(pitch of pitches){
                     let firstMatch = this.active.findIndex(node => mod(this.nodesToPitches([node]),12) === mod(pitch,12));
                     let node = this.active[firstMatch];
@@ -278,24 +286,25 @@ let traceHandler = {
             if(this.trace && midiEvent.getChannel() !== 9){ // Ignore drums events
                 if(midiEvent.isNoteOn()){
                     let pitch = midiEvent.getNote();
+                    if(midiEvent.trace === false){
+                        return
+                    }
                     if(this.isTonnetzOrigin(midiEvent.origin)){
                         //If the origin is known, no need to wait for the rest of the chord
-                        this.addToTrajectory([pitch],midiEvent.origin)
+                        this.addToTrajectory([pitch], midiEvent.origin)
                     }else{
                         this.queueForClustering(pitch);
                     }
                 }else if(midiEvent.isNoteOff()){
-                    this.dequeueForClustering(midiEvent);
+                    this.dequeueForClustering(midiEvent.getNote());
                 }
             }
         },
-        dequeueForClustering: function(midiEvent,delay){
-            //Needs better handling, some notes get stuck sometimes
-            //setTimeout( () => {this.removeActive([midiEvent.getNote()])}, this.delay );
+        dequeueForClustering: function(pitch){
             if(this.noteBuffer.length>0){
-                this.noteOffBuffer.push(midiEvent.getNote());
+                this.noteOffBuffer.push(pitch); // The noteOn could be in the buffer, so wait for next processing
             }else{
-                this.removeActive([midiEvent.getNote()]);
+                this.removeActive([pitch]);
             }
         },
         queueForClustering: function(pitch){
@@ -306,10 +315,10 @@ let traceHandler = {
             this.chordTimer = setTimeout( () => this2.processBuffer(), this.delay)
         },
         processBuffer: function(){
-            this.addToTrajectory(this.noteBuffer); 
+            this.addToTrajectory(this.noteBuffer);
             this.noteBuffer.length=0; // Clear the buffer
-            for(noteOff of this.noteOffBuffer){
-                this.removeActive([noteOff]);
+            for(noteOffPitch of this.noteOffBuffer){
+                this.removeActive([noteOffPitch]);
             }
             this.noteOffBuffer.length=0;
         },
