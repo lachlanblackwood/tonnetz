@@ -160,7 +160,8 @@ let traceHandler = {
         },
         placeRecursive: function(notes){
             // Place with reference to a previous chord, trying from the most recent first
-            for(it = this.lastChords.length-1 ; it>0 ;it--){
+            for(it = this.lastChords.length-1 ; it>=0 ;it--){
+                console.log(`Comparing to chord n°${it}`)
                 let prevPositions = this.lastChords[it].map(node => ({note:this.node2Notes(node).id,coords:node}))
                 if(this.placeNextToChord(notes,prevPositions)){
                     console.log(`Placed chord ${_count1} with reference to chord n°${it}`);
@@ -180,20 +181,28 @@ let traceHandler = {
                 let node = this.closestNode(reference, note);
                 notes.delete(note);
                 this.activateNode(node);
-                success = this.placeRestOfChord({note:note,coords:node},notes);
+                success = this.placeRestOfChord(new Set([{note:note,coords:node}]),notes);
+            }
+            if(success){
+                console.log("Placed with fallback")
             }
             return success
         },
-        placeRestOfChord: function(positionned,notes){
-            let positions = Array.isArray(positionned) ? positionned : [positionned];
+        placeRestOfChord: function(positionned, notes){
+            // let positions = Array.isArray(positionned) ? positionned : [positionned];
+            positions = positionned
             let hasConverged = false;
-            while(hasConverged){
+            console.log('Placing rest of chord')
+            console.log(positionned)
+            console.log(notes)
+            while(!hasConverged){
                 let placedThisIteration = new Set()
                 for(note of notes){
                     for(position of positions){
                         let newPosition = this.placeNextToNote(note, position);
                         if(newPosition !== undefined){
-                            positions[note] = newPosition
+                            console.log(`Found position for ${note}`)
+                            positions.add(newPosition)
                             this.activateNode(newPosition.coords)
                             placedThisIteration.add(note)
                             break;
@@ -206,11 +215,12 @@ let traceHandler = {
             return (notes.size == 0);
         },
         placeNextToNote: function(note, position){
+            console.log(`Comparing ${note} to ${position.note}`)
             function offset(coords,delta){
                 return {x:coords.x+delta.x,y:coords.y+delta.y}
             }
-
             let interval = mod(note - position.note,12);
+            console.log(`Interval is ${interval}`)
             index = this.intervals.indexOf(interval)
             if(index !== -1 ){
                 return {note:note,coords:offset(position.coords,[{x:-1,y:0},{x:1,y:-1},{x:0,y:1}][index])}
@@ -225,25 +235,30 @@ let traceHandler = {
         placeNextToChord: function(notes, positions){
             // First check for common notes
             // TODO: keep all common notes
-            let matchingPos = positions.filter(position => notes.has(position.note))
-            console.log(`Found ${matchingPos.length} common notes`)
-            if(matchingPos.length == 0){
+            let matchingPosFull = positions.filter(position => notes.has(position.note))
+            console.log(`Found ${matchingPosFull.length} common notes`)
+            if(matchingPosFull.length == 0){
                 // TODO: Check for distance 1
                 return false
             }
-            for(pos of matchingPos){
+            let matchingPosUnique = new Set()
+            for(pos of matchingPosFull){
                 if(notes.has(pos.note)){ // Only activate for the first match
+                    console.log(`Placing note ${pos.note} at position ${pos.coords}`)
                     notes.delete(pos.note)
                     this.activateNode(pos.coords);
+                    matchingPosUnique.add(pos);
                 }
             }
-            success = this.placeRestOfChord(matchingPos,notes);
+            console.log(`Attempting to place rest of chords: ${notes}`)
+            success = this.placeRestOfChord(matchingPosUnique, notes);
 
             return success
         },
         placeChord: function(pitches){
             // Don't bother placing pitches that are not on the Tonnetz
             let notes = new Set(pitches.map(pitch => mod(pitch - 9,12)).filter(note => this.isReachable(note)));
+            console.log(`Placing chord with ${notes.size} notes`)
             let positionMap;
             if(notes.size > 0){
                 success = this.placeRecursive(notes)
