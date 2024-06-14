@@ -92,6 +92,8 @@ let tonnetzView = {
     </drag-zoom-svg>
 
     <tonnetz-selector v-model="graph" :tonnetze="tonnetze3" ></tonnetz-selector>
+    <input type="checkbox" id="tracebox" v-model="trace" />
+    <label for="tracebox">Trace trajectory (experimental)</label>
     <p class="warning" :style="isConnected ? {visibility:'hidden'} : {}">{{ strings.get('connected') }}</p>
     </div>
     `
