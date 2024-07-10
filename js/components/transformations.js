@@ -36,14 +36,14 @@ let transformations = {
                         if (symmetryCenter === undefined || symmetryCenter === 'auto'){
                             symmetryCenter = note;
                         }else {
-                            note = rotateNote(note);
+                            note = rotateNote(note, symmetryCenter);
                         }
                         SME.setNote(note);
                     }
                 }
             }
         },
-        rotateNote: function rotateNote(note) {
+        rotateNote: function rotateNote(note, symmetryCenter) {
             if (SME.getChannel() != 9){ // Ignore drums
                 noteIntervalClass = mod(2 * (symmetryCenter - note), 12);
                 // If the interval is a fifth or more, take the descending interval instead
