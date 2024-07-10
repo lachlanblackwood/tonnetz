@@ -35,19 +35,25 @@ let transformations = {
                     if(note !== undefined){
                         if (symmetryCenter === undefined || symmetryCenter === 'auto'){
                             symmetryCenter = note;
-                        }else{
-                            noteIntervalClass = mod(2*(symmetryCenter - note),12)
-                            // If the interval is a fifth or more, take the descending interval instead
-                            if(noteIntervalClass > 6){
-                                note += noteIntervalClass-12
-                            }else{
-                                note += noteIntervalClass
-                            }
+                        }else {
+                            note = rotateNote(note);
                         }
                         SME.setNote(note);
                     }
                 }
             }
+        },
+        rotateNote: function rotateNote(note) {
+            if (SME.getChannel() != 9){ // Ignore drums
+                noteIntervalClass = mod(2 * (symmetryCenter - note), 12);
+                // If the interval is a fifth or more, take the descending interval instead
+                if (noteIntervalClass > 6) {
+                    note += noteIntervalClass - 12;
+                } else {
+                    note += noteIntervalClass;
+                }
+            }
+            return note;
         },
         // Transposes a recording by a given number of semitones
         translateTrajectory : function (SMF,translate) {
