@@ -95,6 +95,11 @@ let tonnetzLike = {
         },
         bounds: { // The bounds of the drawing area
             type: Object
+        },
+        clicklock:{
+            type: Boolean,
+            required: false,
+            default: false,
         }
     },
     computed: {
@@ -172,7 +177,7 @@ let tonnetzLike = {
             <clickToPlayWrapper :transform="position(n.nodes[0])"
             v-for="n in trichordStateList" v-bind:key="genKey(n.nodes)"
             :pitches="nodesToPitches(n.nodes)"
-            :id="n.nodes">
+            :id="n.nodes" :clicklock="clicklock">
                 <trichord 
                 v-bind:notes="memoNode2Notes(n.nodes)"
                 v-bind:nodes="n.nodes"
@@ -184,7 +189,7 @@ let tonnetzLike = {
             <clickToPlayWrapper :transform="position(n.nodes[0])"
             v-for="n in dichordStateList" v-bind:key="genKey(n.nodes)"
             :pitches="nodesToPitches(n.nodes)"
-            :id="n.nodes">
+            :id="n.nodes" :clicklock="clicklock">
                 <dichord 
                 v-bind:shape="memoShape(n.nodes)"
                 v-bind:notes="memoNode2Notes(n.nodes)"
@@ -194,7 +199,7 @@ let tonnetzLike = {
             <clickToPlayWrapper :transform="position(n.node)"
             v-for="n in nodeStateList" v-bind:key="genKey([n.node])"
             :pitches="nodesToPitches([n.node])"
-            :id="[n.node]">
+            :id="[n.node]" :clicklock="clicklock">
                 <note v-bind:notes="memoNode2Notes([n.node])"
                 v-bind:nodes="[n.node]"
                 :forceState="n.status"/>

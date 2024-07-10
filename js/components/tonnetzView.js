@@ -68,6 +68,8 @@ let tonnetzView = {
         },
         // Should drag and zoom be locked ?
         lock: true,
+        // Lock on clicking
+        isClickLocked: false,
         strings:this.$root.strings,
     }},
     computed:{
@@ -81,13 +83,14 @@ let tonnetzView = {
             return this.intervals.reduce(gcd,12)===1;
         }
     },
+    // @panning-on:"isClickLocked=true" @panning-off:"isClickLocked=false"
     template:`
     <div class="tonnetzView">
     <info-panel :infoType="type"></info-panel>
-    <drag-zoom-svg v-bind:height="600" v-bind:width="1000" :lock="lock">
+    <drag-zoom-svg v-bind:height="600" v-bind:width="1000" :lock="lock" @panning-on="isClickLocked=true" @panning-off="isClickLocked=false">
         <template v-slot="slotProps">
-            <tonnetz-plan v-if="type=='tonnetz'" v-bind:notes="notes" v-bind:intervals="intervals" :bounds="slotProps.bounds" :trace="trace"></tonnetz-plan>
-            <chicken-wire v-else v-bind:notes="notes" :bounds="slotProps.bounds" v-bind:intervals="intervals" :trace="trace"></chicken-wire>
+            <tonnetz-plan v-if="type=='tonnetz'" v-bind:notes="notes" v-bind:intervals="intervals" :bounds="slotProps.bounds" :trace="trace" :clicklock="isClickLocked"></tonnetz-plan>
+            <chicken-wire v-else v-bind:notes="notes" :bounds="slotProps.bounds" v-bind:intervals="intervals" :trace="trace" :clicklock="isClickLocked"></chicken-wire>
         </template>
     </drag-zoom-svg>
 

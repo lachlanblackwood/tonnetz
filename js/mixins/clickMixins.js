@@ -16,6 +16,11 @@ let clickToPlayWrapper = {
             required:false,
             default:false
         },
+        clicklock: { // Temporarily lock click controls
+            type:Boolean,
+            required:false,
+            default:false
+        },
         id : {
             required:false,
             default:undefined
@@ -35,7 +40,7 @@ let clickToPlayWrapper = {
                     midiBus.$emit('note-off',this.pitches);
                 }
             }else{
-                if(!this.clicked){
+                if(!this.clicked && !this.clicklock){
                     this.clicked=true;
                     midiBus.$emit('note-on',this.pitches,{parent:this.$parent,id:this.id});
                 }

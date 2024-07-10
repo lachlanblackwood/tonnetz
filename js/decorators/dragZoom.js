@@ -92,7 +92,7 @@ let dragZoomSvg = {
             this.captureMouse = false
             return
         },
-        // Centers the view to the (SVG) coordinates specified
+        // Centers the view to the (SVG) coordinates specified if out of frame
         panTo: function(targetPosition){
             if(targetPosition.x > this.bounds.xmin && targetPosition.x < this.bounds.xmax
              &&targetPosition.y > this.bounds.ymin && targetPosition.y < this.bounds.ymax)
@@ -101,10 +101,16 @@ let dragZoomSvg = {
             }else{
                 newPos = {
                     tx:- targetPosition.x + this.width/this.scale/2,
-                    ty:- targetPosition.y + this.height/this.scale/2
+                    ty:- targetPosition.y + this.height/this.scale/2,
+                    onComplete: this.panOff,
+                    // onCompleteParams: [this, "panning-off"]
                 };
+                this.$emit("panning-on")
                 TweenLite.to(this,.3,newPos);
             }
+        },
+        panOff: function(){
+            this.$emit("panning-off")
         }
     },
     mounted(){
