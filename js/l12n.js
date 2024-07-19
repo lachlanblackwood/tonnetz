@@ -93,6 +93,31 @@ In the generalized (a,b,c) Tonnetz, the left-pointing triangles will correspond 
             notes: ['A', 'B', 'H', 'C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯'],
             info: "Info",
             infoClose: "Schließen",
+            infos:{
+                tonnetz: `
+                <p>
+
+                Das Tonnetz ist ein theoretisches Modell, das in der transformationale Musikanalyse verwendet wird, um die harmonischen Beziehungen zwischen Tonhöhen und Akkorden im gleichtemperierten System darzustellen. Es zeigt die Verbindungen zwischen den Tönen durch die Wahl von zwei erzeugenden Intervallen, die der kleinen und großen Terz entsprechen.
+
+</p><p>
+
+In diesem speziellen Tonnetz, das auch mit (3,4,5) bezeichnet wird, sind die Noten in einem dreieckigen Raster angeordnet, wobei die diagonalen Achsen kleine und große Terzen darstellen und die vertikale Achse der perfekten Quinte entspricht. Die Dreiecke entsprechen den Dur- und Moll-Akkorden, und drei elementare Haupttransformationen ermöglichen es, einen gegebenen Akkord umzuwandeln, indem zwei Noten beibehalten und die dritte um ein Intervall von Halbton oder Ton verändert wird.
+
+</p><p>
+
+Diese Transformationen werden Relativ (R), Parallel (P) und Leittonwechsel (L) genannt. Sie verwandeln zum Beispiel einen C-Dur-Akkord in seinen relativen a-Moll-Akkord (und umgekehrt), einen C-Dur-Akkord in seinen parallelen c-Moll-Akkord (und umgekehrt) und schließlich einen C-Dur-Akkord in den e-Moll-Akkord (und umgekehrt). Das traditionelle (3,4,5)-Tonnetz lässt sich natürlich zu generischen (a,b,c)-Tonnetze erweitern, bei denen die Zahlen a und b den Diagonalachsen entsprechen, die das neue harmonische Gitter erzeugen.
+
+</p><p>
+
+Im Fall des (3,4,5) Tonnetzes entsprechen die beiden Dreieckstypen Moll-Akkorden - die nach links zeigenden Dreiecke mit der intervallischen Struktur gleich (3,4,5) - und Dur-Akkorden - die nach rechts zeigenden Dreiecke mit der intervallischen Struktur gleich (4,3,5).
+
+</p><p>
+
+Im verallgemeinerten (a,b,c) Tonnetz entsprechen die nach links zeigenden Dreiecke einem Akkord, dessen intervallische Struktur gleich (a,b,c) ist, und die nach rechts zeigenden Dreiecke sind symmetrisch und haben die intervallische Struktur (b,a,c). Beim (2,3,7) Tonnetz zum Beispiel werden die diagonalen Achsen durch die Ganzton- bzw. die kleinen Terzintervalle gebildet. Ein nach links zeigendes Dreieck des Gitters entspricht einem Akkord, der die Töne C, D, F enthält.
+
+</p>
+                `
+            },
             semitones: "Halbton",
             creditsButton: "Krediten",
             credits:`
