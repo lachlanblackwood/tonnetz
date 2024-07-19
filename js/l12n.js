@@ -28,17 +28,27 @@ const strings = {
             intervalNames : ['', 'b9', '9', '', '', 'sus4', 'b5', '', '#5', '6', '7', '△7'],
             minorSymbol: 'm',
             infos:{
-                tonnetz: 'Placeholder explanation for the <i>Tonnetz</i>',
+                tonnetz: `<p>
+                The Tonnetz, or “network of tones”, is a theoretical model used in transformational music analysis to represent the harmonic relationships between pitches and chords in the equal-tempered system. It displays the interconnections between notes through the choice of two generating intervals, usually corresponding to the minor and major third.
+</p><p>
+In this specific Tonnetz, also indicated with (3,4,5), notes are arranged in a triangular grid where the diagonal axes represent minor and major thirds and the vertical axis corresponds to the perfect fifth. Triangles correspond to major and minor chords and three main elementary transformations enable to transform a given chord by keeping two notes and changing the third one by an interval of semitone or tone.
+</p><p>
+These transformations are called the Relative (R), the Parallel (P) and the Leading-Tone exchange (L). They transform for example a C major chord into its relative A minor chord (and vice-versa), a C major chord into its parallel C minor (and vice-versa) and, finally, a C major chord into the E minor chord (and vice-versa). The traditional (3,4,5) Tonnetz naturally extends to generic (a,b,c) Tonnetze where the numbers a and b correspond to the diagonal axes that generate the new harmonic grid.
+</p><p>
+In the case of the (3,4,5) Tonnetz, the two types of triangles correspond to minor chords – the left-pointing triangles having intervallic structure equal to (3,4,5) - and major chords – the right-pointing triangles having intervallic structure equal to (4,3,5).
+</p><p>
+In the generalized (a,b,c) Tonnetz, the left-pointing triangles will correspond to a chord whose intervallic structure is equal to (a,b,c) and the right-pointing will be their symmetrical, having intervallic structure equal to (b,a,c). For example, the (2,3,7) Tonnetz will have the diagonal axes generated respectively by the whole-tone and the minor third intervals. A left-pointing triangle of the grid will correspond to a chord containing the notes C, D, F.
+</p>`,
                 chicken: 'Placeholder explanation for the Chicken-Wire'
             },
             credits: `
-            <h2>Credit</h2>
+            <h2>Credits</h2>
 
-            <span>Conceived and developped by Corentin Guichaoua and Moreno Andreatta</span>
+            <p>Conceived and developped by Corentin Guichaoua and Moreno Andreatta</p>
             
             <h2>Acknowledgments</h2>
             
-            <span>Thanks to Louis Bigo for the original Hexachord software. <br>
+            <p>Thanks to Louis Bigo for the original Hexachord software. <br>
             
             Thanks to Philipp Legner for improving on the initial visual design and his feedback. <br>
             
@@ -53,11 +63,11 @@ const strings = {
             
             Thanks to all collaborators for inspiration. <br>
             
-            Thanks to USIAS / University of Strasbourg / IRMA / IRCAM for financial support.</span>
+            Thanks to USIAS / University of Strasbourg / IRMA / IRCAM for financial support.</p>
             
             <h2>Citation</h2>
-            <span><a href="https://www.gitlab.com/guichaoua/web-hexachord">www.gitlab.com/guichaoua/web-hexachord</a> <br>
-            Academic paper to come, please check back later</span>
+            <p><a href="https://www.gitlab.com/guichaoua/web-hexachord">www.gitlab.com/guichaoua/web-hexachord</a> <br>
+            Guichaoua C., J-L. Besada, E. Bisesi, M. Andreatta (2021), "The Tonnetz Environment: A Web Platform for Computer-aided "Mathemusical" Learning and Research", CSEDU (1), p. 680-689</p>
             `,
             creditsButton: "Credits",
             interval: "Interval",
@@ -80,7 +90,36 @@ const strings = {
             translate: 'Verschieben',
             export: 'Exportieren', // Needs checking
             connected: 'Dieses Tonnetz ist nicht verbunden, und enthält nicht alle Noten.',
-            notes: ['A', 'B', 'H', 'C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯']
+            notes: ['A', 'B', 'H', 'C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯'],
+            info: "Info",
+            infoClose: "Schließen",
+            semitones: "Halbton",
+            creditsButton: "Krediten",
+            credits:`
+            <h2>Krediten</h2>
+            <p>Konzipiert und entwickelt von Corentin Guichaoua und Moreno Andreatta</p>
+
+<h2>Danksagungen</h2>
+<p>Danke an Louis Bigo für die ursprüngliche Hexachord-Software. <br>
+
+Danke an Philipp Legner für die Verbesserung des ursprünglichen visuellen Designs und sein Feedback. <br>
+
+Danke an die Personen, die geholfen haben, die Software in andere Sprachen zu übersetzen:
+
+<ul>
+<li>Deutsch: Philipp Legner
+<li>Hindi: Nilesh Trivedi
+</ul>
+Die Beispiel-MIDI-Tracks werden von Moreno Andreatta interpretiert und im Aufnahmestudio der Universität Straßburg aufgenommen. <br>
+
+Danke an alle Mitarbeiter für die Inspiration. <br>
+
+Danke an USIAS / Universität Straßburg / IRMA / IRCAM für die finanzielle Unterstützung.</p>
+
+<h2>Zitation</h2>
+<p><a href="https://www.gitlab.com/guichaoua/web-hexachord">www.gitlab.com/guichaoua/web-hexachord</a> <br>
+Guichaoua C., J-L. Besada, E. Bisesi, M. Andreatta (2021), "The Tonnetz Environment: A Web Platform for Computer-aided 'Mathemusical' Learning and Research", CSEDU (1), p. 680-689</p>
+            `
         },
         fr: {
             title: 'Le Tonnetz',
@@ -100,6 +139,49 @@ const strings = {
             notes: ['La', 'La♯', 'Si', 'Do', 'Do♯', 'Ré', 'Ré♯', 'Mi', 'Fa', 'Fa♯', 'Sol', 'Sol♯'],
             interval: "Intervalle",
             content: "Contenu",
+            infos:{
+                tonnetz:`<p>
+                Le Tonnetz, ou « réseau de notes », est un modèle théorique utilisé dans l'analyse musicale transformationnelle pour représenter les relations harmoniques entre les hauteurs et les accords dans le système tempéré égal. Il affiche les interconnexions entre les notes grâce au choix de deux intervalles générateurs, correspondant généralement à la tierce mineure et à la tierce majeure.
+</p><p>
+Dans ce Tonnetz spécifique, également indiqué par (3,4,5), les notes sont disposées dans une grille triangulaire où les axes diagonaux représentent les tierces mineures et majeures et l'axe vertical correspond à la quinte parfaite. Les triangles correspondent aux accords majeurs et mineurs et trois transformations élémentaires principales permettent de transformer un accord donné en conservant deux notes et en changeant la troisième par un intervalle d'un demi-ton ou d'un ton.
+</p><p>
+Ces transformations sont appelées Relative (R), Parallèle (P) et Échange de note sensible (L). Elles transforment, par exemple, un accord de Do majeur en son relatif La mineur (et vice-versa), un accord de Do majeur en son parallèle Do mineur (et vice-versa) et, enfin, un accord de Do majeur en Mi mineur (et vice-versa). Le Tonnetz traditionnel (3,4,5) s'étend naturellement aux Tonnetze génériques (a,b,c) où les nombres a et b correspondent aux axes diagonaux qui génèrent la nouvelle grille harmonique.
+</p><p>
+Dans le cas du Tonnetz (3,4,5), les deux types de triangles correspondent aux accords mineurs – les triangles pointant vers la gauche ayant une structure intervallique égale à (3,4,5) - et aux accords majeurs – les triangles pointant vers la droite ayant une structure intervallique égale à (4,3,5).
+</p><p>
+Dans le Tonnetz généralisé (a,b,c), les triangles pointant vers la gauche correspondront à un accord dont la structure intervallique est égale à (a,b,c) et ceux pointant vers la droite seront leur symétrique, ayant une structure intervallique égale à (b,a,c). Par exemple, le Tonnetz (2,3,7) aura les axes diagonaux générés respectivement par les intervalles de ton entier et de tierce mineure. Un triangle pointant vers la gauche de la grille correspondra à un accord contenant les notes Do, Ré, Fa.
+</p>
+`
+            },
+            info: "Info",
+            infoClose: 'Fermer',
+            creditsButton: 'Crédits',
+            semitones: 'demi-tons',
+            credits:`
+            <h2>Credits</h2>
+            <p>Conçu et développé par Corentin Guichaoua et Moreno Andreatta</p>
+
+<h2>Remerciements</h2>
+<p>Merci à Louis Bigo pour le logiciel Hexachord original. <br>
+
+Merci à Philipp Legner pour l'amélioration du design visuel initial et ses retours. <br>
+
+Merci aux personnes qui ont aidé à traduire le logiciel dans d'autres langues :
+
+<ul>
+<li>Allemand : Philipp Legner
+<li>Hindi : Nilesh Trivedi
+</ul>
+Les pistes MIDI d'exemple sont interprétées par Moreno Andreatta et enregistrées au studio d'enregistrement de l'Université de Strasbourg. <br>
+
+Merci à tous les collaborateurs pour l'inspiration. <br>
+
+Merci à USIAS / Université de Strasbourg / IRMA / IRCAM / CNRS pour le soutien financier.</p>
+
+<h2>Citation</h2>
+<p><a href="https://www.gitlab.com/guichaoua/web-hexachord">www.gitlab.com/guichaoua/web-hexachord</a> <br>
+Guichaoua C., J-L. Besada, E. Bisesi, M. Andreatta (2021), "The Tonnetz Environment: A Web Platform for Computer-aided 'Mathemusical' Learning and Research", CSEDU (1), p. 680-689</p>
+            `,
         },
         hi: {
             title: 'सरगम',
@@ -121,7 +203,7 @@ const strings = {
     },
     get(key){
         let string = resolve(key,this.data[this.activeLang]);
-        if(!string===undefined){
+        if(string===undefined){
             console.warn(`No localisation string for "${key}", defaulting to English`)
             string = resolve(key,this.data.en);
             if(string===undefined){

@@ -68,11 +68,17 @@ h2 { text-align: center; text-transform: uppercase; color: #aaa; margin: 0 0 20p
 .infoButton:hover { font-weight: bold; }
 /* Ease in the explanation so it doesn't spill out of the box while transitionning */
 .info .infoExplain {
+    overflow:hidden;
     opacity:0;
     transition: opacity .5s ease-in;
+    height: 100%;
 }
 .info.infoExpanded .infoExplain {
+    display:block;
     opacity:1;
+    font-size: 16px;
+    overflow-y: auto;
+    margin-top: 10px;
 }
 
 .columns { display: flex; flex-wrap: wrap; justify-content: center; }
