@@ -36,7 +36,7 @@ let transformations = {
                         if (symmetryCenter === undefined || symmetryCenter === 'auto'){
                             symmetryCenter = note;
                         }else {
-                            note = rotateNote(note, symmetryCenter);
+                            note = this.rotateNote(note, symmetryCenter);
                         }
                         SME.setNote(note);
                     }
