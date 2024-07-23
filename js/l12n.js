@@ -39,7 +39,25 @@ In the case of the (3,4,5) Tonnetz, the two types of triangles correspond to min
 </p><p>
 In the generalized (a,b,c) Tonnetz, the left-pointing triangles will correspond to a chord whose intervallic structure is equal to (a,b,c) and the right-pointing will be their symmetrical, having intervallic structure equal to (b,a,c). For example, the (2,3,7) Tonnetz will have the diagonal axes generated respectively by the whole-tone and the minor third intervals. A left-pointing triangle of the grid will correspond to a chord containing the notes C, D, F.
 </p>`,
-                chicken: 'Placeholder explanation for the Chicken-Wire'
+                chicken: `<p>
+
+ 
+
+The Chicken-Wire representation is the dual one of the triangular grid. It correspond to the hexagonal tiling of the harmonic space obtained by replacing each triangle by the type of chord it represents. Two chords are connected by a segment when there is a parsimonious transformation between them such as the relative (R), the parallal (P) and the leading-tone exchange.
+
+</p><p>
+
+In this representation, chords are therefore represented as vertices of the hexagonal grid and the pitches are the faces of the different hexagons. For example, the note C is the face of the hexagon whose vertices are the six following chords: C major, A minor, F major, F min, G# major, C minor.
+
+</p><p>
+
+ 
+
+Major chords are represented in normal font whereas minor chord are represented in italics. This convention also applies to the case of generic three-note chords in (a,b,c) Tonnetze. Every chord in normal font is connected with three chords in italics font representing the three possible ways to transform the initial chord in a new chord via a parsimonious transformation keeping two notes invariant and changing only one note by a semi-tone or a tone.
+
+</p>
+
+`
             },
             credits: `
             <h2>Credits</h2>
@@ -116,7 +134,20 @@ Im Fall des (3,4,5) Tonnetzes entsprechen die beiden Dreieckstypen Moll-Akkorden
 Im verallgemeinerten (a,b,c) Tonnetz entsprechen die nach links zeigenden Dreiecke einem Akkord, dessen intervallische Struktur gleich (a,b,c) ist, und die nach rechts zeigenden Dreiecke sind symmetrisch und haben die intervallische Struktur (b,a,c). Beim (2,3,7) Tonnetz zum Beispiel werden die diagonalen Achsen durch die Ganzton- bzw. die kleinen Terzintervalle gebildet. Ein nach links zeigendes Dreieck des Gitters entspricht einem Akkord, der die Töne C, D, F enthält.
 
 </p>
-                `
+                `,
+                chicken: `<p>
+
+Die Chicken-Wire-Darstellung ist die duale Darstellung des Dreiecksgitters. Sie entspricht der hexagonalen Kachelung des harmonischen Raums, die man erhält, indem man jedes Dreieck durch den entsprechenden Akkordtyp  ersetzt. Zwei Akkorde sind durch ein Segment verbunden, wenn zwischen ihnen eine sparsame Transformation wie die Relative (R), die Parallele (P) und der Leittonwechsel besteht.
+
+</p><p>
+
+In dieser Darstellung werden die Akkorde also als Eckpunkte des sechseckigen Gitters dargestellt, und die Tonhöhen sind die Flächen der verschiedenen Sechsecke. Zum Beispiel ist die Note C die Seite des Sechsecks, dessen Eckpunkte die sechs folgenden Akkorde sind: C-Dur, A-Moll, F-Dur, F-Moll, Gis-Dur, C-Moll.
+
+</p><p>
+
+Dur-Akkorde werden in normaler Schrift dargestellt, während Moll-Akkorde werden in kursiv dargestellt. Diese Konvention gilt auch für den Fall der allgemeinen Dreiklangsakkorde in (a,b,c) Tonnetze. Jeder Akkord in normaler Schrift ist mit drei Akkorden in kursiver Schrift verbunden, die die drei Möglichkeiten darstellen, den ursprünglichen Akkord in einen neuen Akkord umzuwandeln, und zwar durch eine sparsame Transformation, bei der zwei Noten unverändert bleiben und nur eine Note um einen Halbton oder einen Ton verändert wird.
+
+</p>`
             },
             semitones: "Halbton",
             creditsButton: "Krediten",
@@ -176,7 +207,14 @@ Dans le cas du Tonnetz (3,4,5), les deux types de triangles correspondent aux ac
 </p><p>
 Dans le Tonnetz généralisé (a,b,c), les triangles pointant vers la gauche correspondront à un accord dont la structure intervallique est égale à (a,b,c) et ceux pointant vers la droite seront leur symétrique, ayant une structure intervallique égale à (b,a,c). Par exemple, le Tonnetz (2,3,7) aura les axes diagonaux générés respectivement par les intervalles de ton entier et de tierce mineure. Un triangle pointant vers la gauche de la grille correspondra à un accord contenant les notes Do, Ré, Fa.
 </p>
-`
+`,
+                chicken:`<p>
+La représentation en "grillage" (chicken-wire) est la représentation duale de la grille triangulaire. Elle correspond au pavage hexagonal de l'espace harmonique obtenu en remplaçant chaque triangle par le type d'accord qu'il représente. Deux accords sont reliés par un segment lorsqu'il existe une transformation parcimonieuse entre eux, telle que la Relative (R), la Parallèle (P) et l'Échange de note sensible (L).
+</p><p>
+Dans cette représentation, les accords sont donc représentés comme les sommets de la grille hexagonale, et les hauteurs sont les faces des différents hexagones. Par exemple, la note Do est la face de l'hexagone dont les sommets sont les six accords suivants : Do majeur, La mineur, Fa majeur, Fa mineur, Sol♯ majeur, Do mineur.
+</p><p>
+Les accords majeurs sont représentés en écriture normale tandis que les accords mineurs sont représentés en italique. Cette convention s'applique également dans le cas des accords généraux de trois notes dans les Tonnetze (a,b,c). Chaque accord en écriture normale est relié à trois accords en italique représentant les trois manières possibles de transformer l'accord initial en un nouvel accord par une transformation parcimonieuse, en gardant deux notes inchangées et en modifiant seulement une note d'un demi-ton ou d'un ton.
+</p>`
             },
             info: "Info",
             infoClose: 'Fermer',
