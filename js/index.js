@@ -170,6 +170,23 @@ proto = new Vue({
             else{
                 window.location.reload();
             }
+        },
+        countPageLoad(){
+            let DEBUG = false;
+            var xhr = new XMLHttpRequest();
+            // NOTE: visit the link to check on page_loads (will increment by 1)
+            xhr.open("GET", "https://counterpro.vercel.app/api/count/id/tonnetz_pageload");
+            xhr.responseType = "json";
+            if(DEBUG){
+                xhr.onload = function() {
+                    console.log(`Counted ${this.response.count} visits`);
+                }
+            }
+            if (location.hostname === "localhost" || location.hostname === "127.0.0.1"){
+                console.log("Local host, skipping page load counter")
+            }else{
+                xhr.send();
+            }
         }
     },
     mounted(){
@@ -179,7 +196,10 @@ proto = new Vue({
 
         //Connect the Midi
         midiBus.midiThru.connect(this.synth);
-        midiBus.midiThru.connect(this.midiHandler);   
+        midiBus.midiThru.connect(this.midiHandler);
+
+        //Update the page load counter
+        this.countPageLoad()
     }
 })
 
