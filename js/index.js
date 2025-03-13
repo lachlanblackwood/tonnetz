@@ -23,9 +23,9 @@ const xstep=Math.sqrt(3)/2 //Ratio of horizontal to vertical spacing = height of
 const baseSize=50 //Base scale: height of a vartical step (in svg coordinates)
 
 // Conversion between tonnetz coordinates and svg coordinates
-const logicalToSvgX = node => node.y * xstep * baseSize;
-const logicalToSvgY = node => (node.x + node.y/2) * baseSize;
-const logicalToSvg = node => ({x:logicalToSvgX(node), y:logicalToSvgY(node)})
+const logicalToSvgX = node => (node.y + node.x / 2) * baseSize;
+const logicalToSvgY = node => -node.x * xstep * baseSize;
+const logicalToSvg = node => ({x: logicalToSvgX(node), y: logicalToSvgY(node)});
 
 
 // ============================================================================
