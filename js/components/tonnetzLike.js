@@ -95,17 +95,17 @@ let tonnetzLike = {
         // Returns the notes which fit in the drawing area
         // Actually also returns nodes which don't fit but for which a chord fits
         nodeList: function (){
-            var nodes = [];
-            var xmin = Math.floor(this.bounds.xmin/(baseSize*xstep))
-            var xmax = Math.ceil(this.bounds.xmax/(baseSize*xstep))
-            for(xi of range(xmin,xmax+1)){
-                ymin = Math.floor(this.bounds.ymin/(baseSize)-xi/2)
-                ymax = Math.ceil(this.bounds.ymax/(baseSize)-xi/2)
-                for(yi of range(ymin,ymax+1)){
-                    let node = {x:xi,y:yi};
-                    nodes.push(node)
-                }
-            }
+            var ymin = Math.floor(this.bounds.ymin / (baseSize * xstep));
+var ymax = Math.ceil(this.bounds.ymax / (baseSize * xstep));
+
+for (yi of range(ymin, ymax + 1)) {
+    xmin = Math.floor(this.bounds.xmin / baseSize - yi / 2);
+    xmax = Math.ceil(this.bounds.xmax / baseSize - yi / 2);
+    for (xi of range(xmin, xmax + 1)) {
+        let node = { x: xi, y: yi };
+        nodes.push(node);
+    }
+}
             return nodes;
         },
         // Returns the dichords which fit in the drawing area
