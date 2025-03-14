@@ -19,12 +19,12 @@ document.addEventListener('mousemove', restartTimeout);
 // ============================================================================
 // Geometry constants and coordinate conversions
 
-const xstep=Math.sqrt(3)/2 //Ratio of horizontal to vertical spacing = height of an equilateral triangle
-const baseSize=50 //Base scale: height of a vartical step (in svg coordinates)
+const ystep=Math.sqrt(3)/2 //Ratio of vertical to horizontal spacing = height of an equilateral triangle
+const baseSize=50 //Base scale: height of a horizontal step (in svg coordinates)
 
 // Conversion between tonnetz coordinates and svg coordinates
-const logicalToSvgX = node => node.x * xstep * baseSize;
-const logicalToSvgY = node => (node.y + node.x/2) * baseSize;
+const logicalToSvgX = node => (node.x + node.y/2) * baseSize;
+const logicalToSvgY = node => node.y * ystep * baseSize;
 const logicalToSvg = node => ({x:logicalToSvgX(node), y:logicalToSvgY(node)})
 
 
