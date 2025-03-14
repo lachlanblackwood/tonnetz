@@ -96,12 +96,12 @@ let tonnetzLike = {
         // Actually also returns nodes which don't fit but for which a chord fits
         nodeList: function (){
             var nodes = [];
-            var xmin = Math.floor(this.bounds.xmin/(baseSize*xstep))
-            var xmax = Math.ceil(this.bounds.xmax/(baseSize*xstep))
-            for(xi of range(xmin,xmax+1)){
-                ymin = Math.floor(this.bounds.ymin/(baseSize)-xi/2)
-                ymax = Math.ceil(this.bounds.ymax/(baseSize)-xi/2)
-                for(yi of range(ymin,ymax+1)){
+            var ymin = Math.floor(this.bounds.ymin/(baseSize*ystep))
+            var ymax = Math.ceil(this.bounds.ymax/(baseSize*ystep))
+            for(yi of range(ymin,ymax+1)){
+                xmin = Math.floor(this.bounds.xmin/(baseSize)-yi/2)
+                xmax = Math.ceil(this.bounds.xmax/(baseSize)-yi/2)
+                for(xi of range(xmin,xmax+1)){
                     let node = {x:xi,y:yi};
                     nodes.push(node)
                 }
@@ -113,9 +113,9 @@ let tonnetzLike = {
             var nodes = [];
             //For each root
             for(node of this.nodeList){
-                nodes.push([{x:node.x,y:node.y},{x:node.x+1,y:node.y  }]);
                 nodes.push([{x:node.x,y:node.y},{x:node.x  ,y:node.y+1}]);
-                nodes.push([{x:node.x,y:node.y},{x:node.x-1,y:node.y+1}]);
+                nodes.push([{x:node.x,y:node.y},{x:node.x+1,y:node.y }]);
+                nodes.push([{x:node.x,y:node.y},{x:node.x+1,y:node.y-1}]);
             }
             return nodes;
         },
@@ -124,8 +124,8 @@ let tonnetzLike = {
             var nodes = [];
             //For each root (though actually the fifth)
             for(node of this.nodeList){
-                nodes.push([{x:node.x,y:node.y},{x:node.x+1,y:node.y  },{x:node.x,y:node.y+1}]);
-                nodes.push([{x:node.x,y:node.y},{x:node.x-1,y:node.y+1},{x:node.x,y:node.y+1}]);
+                nodes.push([{x:node.x,y:node.y},{x:node.x,y:node.y+1},{x:node.x+1,y:node.y}]);
+                nodes.push([{x:node.x,y:node.y},{x:node.x+1,y:node.y-1},{x:node.x+1,y:node.y}]);
             }
             return nodes;
         }
@@ -133,12 +133,13 @@ let tonnetzLike = {
     methods: {
         // Converts an array of nodes to an array of the corresponding notes
         node2Notes: function (nodes){
-            return nodes.map(node => this.notes[mod(-node.x*this.intervals[0]+node.y*this.intervals[2],12)])
+            return nodes.map(node => this.notes[mod(node.y*this.intervals[0]-node.x*this.intervals[2],12)])
         },
         // Converts an array of nodes to an array of the corresponding Midi pitches
         nodesToPitches: function(nodes){
             return nodes.map(nodeIt => {
-                let x = 81-nodeIt.x*this.intervals[0]+nodeIt.y*(this.intervals[2]-12)
+                let x = 81-4*12+nodeIt.y*this.intervals[0]-nodeIt.x*(this.intervals[2]-12)
+		let m = Math.max(x,mod(x,12))
                 return Math.max(x,mod(x,12))
             });
         },
@@ -220,8 +221,8 @@ let trichordChicken = {
         },
         text: function(){
             //Is this a major or minor chord ?
-            //I.E. is the matching triangle in the Tonnetz right- or left-pointed
-            var major = (this.shape[0].y == this.shape[1].y);
+            //I.E. is the matching triangle in the Tonnetz up- or down-pointed
+            var major = (this.shape[0].x == this.shape[1].x);
             if (major){
                 return this.strings.notes[this.notes[2].id]; // notes[2] is the root
             }else{
@@ -257,8 +258,8 @@ let dichordChicken = {
                         y: (dy*point.x+dx*point.y)};
             };
             //The extremities of the segment if the points were 0,0 and 1,0
-            const p1 = {x:0.5,y:xstep/3};
-            const p2 = {x:0.5,y:-xstep/3};
+            const p1 = {x:ystep/3,y:0.5};
+            const p2 = {x:-ystep/3,y:0.5};
             return {
                 x1 : rotate(p1).x,
                 x2 : rotate(p2).x,
@@ -286,12 +287,12 @@ let noteChicken = {
     computed: {
         coords: function (){
             return[
-                {x:+baseSize*xstep/3,  y:+baseSize/2},
-                {x:-baseSize*xstep/3,  y:+baseSize/2},
-                {x:-baseSize*2*xstep/3,y:0},
-                {x:-baseSize*xstep/3,  y:-baseSize/2},
-                {x:+baseSize*xstep/3,  y:-baseSize/2},
-                {x:+baseSize*2*xstep/3,y:0}
+                {y:+baseSize*ystep/3,  x:+baseSize/2},
+                {y:-baseSize*ystep/3,  x:+baseSize/2},
+                {y:-baseSize*2*ystep/3,x:0},
+                {y:-baseSize*ystep/3,  x:-baseSize/2},
+                {y:+baseSize*ystep/3,  x:-baseSize/2},
+                {y:+baseSize*2*ystep/3,x:0}
             ]
         },
         points: function (){
