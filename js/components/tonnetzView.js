@@ -1,29 +1,15 @@
 //Component aggregating a tonnetz with a selector
 
-let tonnetze3 = [
-    [1,1,10],
-    [1,2,9],
-    [1,3,8],
-    [1,4,7],
-    [1,5,6],
-    [2,2,8],
-    [2,3,7],
-    [2,4,6],
-    [2,5,5],
-    [3,4,5],
-    [3,3,6],
-    [4,4,4]
-];
-
 let tonnetzSelector = {
     props:{
         value:{
             type:Object
+        },
+        tonnetze:{ // Range of selectable Tonnetze
+            type: Array,
+            required: true
         }
     },
-    data:function(){return{
-        tonnetze:tonnetze3,
-    }},
     computed:{
         strings: function(){return this.$root.strings}
     },
@@ -38,14 +24,14 @@ let tonnetzSelector = {
         </div>
         <button v-on:click="$emit('input',{intervals:value.intervals,type:(value.type=='chicken'?'tonnetz':'chicken')})"
         v-bind:class="{active: value.type=='chicken'}">
-            {{ strings.dual }}
+            {{ strings.get('dual') }}
         </button>
     </div>
     `
 }
 
 let tonnetzView = {
-    components: {tonnetzPlan,chickenWire,dragZoomSvg,tonnetzSelector},
+    components: {tonnetzPlan,chickenWire,dragZoomSvg,tonnetzSelector,infoPanel},
     props:{
         // The initial value for the Tonnetz
         initTonnetz:{
@@ -67,17 +53,23 @@ let tonnetzView = {
             default:false
         }
     },
+    static: {
+        tonnetze3: [
+            [1,1,10],[1,2,9],[1,3,8],[1,4,7],[1,5,6],[2,2,8],
+            [2,3,7],[2,4,6],[2,5,5],[3,4,5],[3,3,6],[4,4,4]
+        ]
+    },
     data: function(){return{
-        // The list of all 3-interval Tonnetze
-        tonnetze: tonnetze3,
         graph: {
             // The selected interval set
-            intervals:tonnetze3.find(value => arrayEquals(this.initTonnetz,value)), //Find so that the arrays compare equal
+            intervals:this.tonnetze3.find(value => arrayEquals(this.initTonnetz,value)), //Find so that the arrays compare equal
             // The type of representation for the main window ('tonnetz' or 'chicken')
             type: this.initType
         },
         // Should drag and zoom be locked ?
         lock: true,
+        // Lock on clicking
+        isClickLocked: false,
         strings:this.$root.strings,
     }},
     computed:{
@@ -91,17 +83,21 @@ let tonnetzView = {
             return this.intervals.reduce(gcd,12)===1;
         }
     },
+    // @panning-on:"isClickLocked=true" @panning-off:"isClickLocked=false"
     template:`
     <div class="tonnetzView">
-    <drag-zoom-svg v-bind:height="600" v-bind:width="1000" :lock="lock">
+    <info-panel :infoType="type"></info-panel>
+    <drag-zoom-svg v-bind:height="600" v-bind:width="1000" :lock="lock" @panning-on="isClickLocked=true" @panning-off="isClickLocked=false">
         <template v-slot="slotProps">
-            <tonnetz-plan v-if="type=='tonnetz'" v-bind:notes="notes" v-bind:intervals="intervals" :bounds="slotProps.bounds" :trace="trace"></tonnetz-plan>
-            <chicken-wire v-else v-bind:notes="notes" :bounds="slotProps.bounds" v-bind:intervals="intervals" :trace="trace"></chicken-wire>
+            <tonnetz-plan v-if="type=='tonnetz'" v-bind:notes="notes" v-bind:intervals="intervals" :bounds="slotProps.bounds" :trace="trace" :clicklock="isClickLocked"></tonnetz-plan>
+            <chicken-wire v-else v-bind:notes="notes" :bounds="slotProps.bounds" v-bind:intervals="intervals" :trace="trace" :clicklock="isClickLocked"></chicken-wire>
         </template>
     </drag-zoom-svg>
 
-    <tonnetz-selector v-model="graph"></tonnetz-selector>
-    <p class="warning" :style="isConnected ? {visibility:'hidden'} : {}">{{ strings.connected }}</p>
+    <tonnetz-selector v-model="graph" :tonnetze="tonnetze3" ></tonnetz-selector>
+    <input type="checkbox" id="tracebox" v-model="trace" />
+    <label for="tracebox">Trace trajectory (experimental)</label>
+    <p class="warning" :style="isConnected ? {visibility:'hidden'} : {}">{{ strings.get('connected') }}</p>
     </div>
     `
 }

@@ -44,6 +44,7 @@ let dragZoomSvg = {
         zoomInOut: function (wheelEvent){
             if(this.lock) return; //Ignore if locked
 
+            wheelEvent.preventDefault();
             var multiplier = Math.exp(-wheelEvent.deltaY/600)
             // Bound the multiplier to acceptable values
             multiplier = bound(multiplier,this.scaleBounds.mini/this.scale,
@@ -91,7 +92,7 @@ let dragZoomSvg = {
             this.captureMouse = false
             return
         },
-        // Centers the view to the (SVG) coordinates specified
+        // Centers the view to the (SVG) coordinates specified if out of frame
         panTo: function(targetPosition){
             if(targetPosition.x > this.bounds.xmin && targetPosition.x < this.bounds.xmax
              &&targetPosition.y > this.bounds.ymin && targetPosition.y < this.bounds.ymax)
@@ -100,10 +101,16 @@ let dragZoomSvg = {
             }else{
                 newPos = {
                     tx:- targetPosition.x + this.width/this.scale/2,
-                    ty:- targetPosition.y + this.height/this.scale/2
+                    ty:- targetPosition.y + this.height/this.scale/2,
+                    onComplete: this.panOff,
+                    // onCompleteParams: [this, "panning-off"]
                 };
-                TweenLite.to(this,1,newPos);
+                this.$emit("panning-on")
+                TweenLite.to(this,.3,newPos);
             }
+        },
+        panOff: function(){
+            this.$emit("panning-off")
         }
     },
     mounted(){
@@ -113,7 +120,7 @@ let dragZoomSvg = {
         <svg id="svg" class="tonnetz" 
         v-bind:width="width" v-bind:height="height" 
         v-bind:viewBox="viewbox"
-        v-on:wheel.prevent="zoomInOut"
+        v-on:wheel="zoomInOut"
         v-on:pointerdown="captureOn"
         v-on:pointerup="captureOff"
         v-on:pointerleave="captureOff"

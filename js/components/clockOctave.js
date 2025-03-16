@@ -5,14 +5,19 @@ let noteClock = {
     computed: {
         strings:function(){
             return this.$root.strings
+        },
+        textScale: function (){
+            let maxLength=Math.max(...this.strings.get('notes').map(name => name.length))
+            let scale = Math.min(1,2.5/maxLength)
+            return `scale(${scale})`
         }
     },
     template: `
         <g class=noteClock>
             <circle v-bind:class="{activeNode:isActive}" v-bind:data-key="notes[0].id">
             </circle> 
-            <text>
-                {{ strings.notes[notes[0].id] }}
+            <text :transform="textScale">
+                {{ strings.get(['notes',notes[0].id]) }}
             </text>
         </g>
         `
@@ -35,6 +40,10 @@ let clockOctave = {
         intervals: {
             type: Number,
             default: 1
+        },
+        toggle:{
+            type:Boolean,
+            default: false
         }
     },
     computed: {
@@ -99,7 +108,8 @@ let clockOctave = {
             <clickToPlayWrapper v-for="n in [0,1,2,3,4,5,6,7,8,9,10,11]" 
             :pitches="nodesToPitches([n])"
             v-bind:key="genKey([n])"
-            :transform="posToTransform(position(n))">
+            :transform="posToTransform(position(n))"
+            :toggle="toggle">
                 <note-clock
                 v-bind:notes="node2Notes([n])"
                 />

@@ -1,5 +1,5 @@
 let playRecorder = {
-    components: {songLoader},
+    components: {songLoader, transformations},
     data: function(){return{
         // The Midi player provided by JZZ
         player: {playing:false, play:noop, pause:noop, stop: noop, resume:noop},
@@ -65,58 +65,6 @@ let playRecorder = {
             this.player.connect(midiBus.midiThru);
             this.resetNotes();
         },
-        rotate: function(){
-            this.stop()
-            this.rotateTrajectory(this.SMF);
-            // Does the player really need to be reassigned ?
-            this.player=this.SMF.player();
-            this.player.connect(midiBus.midiThru);
-
-            this.player.play();
-        },
-        translate: function(translate=1){
-            this.stop()
-            this.translateTrajectory(this.SMF,translate);
-            // Does the player really need to be reassigned ?
-            this.player=this.SMF.player();
-            this.player.connect(midiBus.midiThru);
-
-            this.player.play();
-        },
-        //Simple version operating on pitches alone
-        rotateTrajectory : function (SMF) {
-            for (SMFTrack of SMF){
-                let symmetryCenter = undefined;
-                for (SME of SMFTrack){
-                    let note = SME.getNote();
-                    if(note !== undefined){
-                        if (symmetryCenter === undefined){
-                            symmetryCenter = note;
-                        }else{
-                            noteIntervalClass = mod(2*(symmetryCenter - note),12)
-                            // If the interval is a fifth or more, take the descending interval instead
-                            if(noteIntervalClass > 6){  
-                                note += noteIntervalClass-12
-                            }else{
-                                note += noteIntervalClass
-                            }
-                        }
-                        SME.setNote(note);
-                    }
-                }
-            }
-        },
-        // Transposes a recording by a given number of semitones
-        translateTrajectory : function (SMF,translate) {
-            for (SMFTrack of SMF){
-                for (SME of SMFTrack){
-                    let note = SME.getNote();
-                    if(note !== undefined){
-                        SME.setNote(note+translate);
-                    }
-                }
-            }
-        },
         // Toggles recording and performs setup and unwinding of the recording
         recordToggle: function(){
             if(this.recording){
@@ -160,6 +108,14 @@ let playRecorder = {
             element.click();
 
             document.body.removeChild(element);
+        },
+        transform: function(transformator,args){
+            this.stop()
+            transformator(this.SMF,args[0])
+            // Does the player really need to be reassigned ?
+            this.player=this.SMF.player();
+            this.player.connect(midiBus.midiThru);
+            this.player.play();
         }
     },
     mounted: function(){
@@ -167,13 +123,13 @@ let playRecorder = {
     },
     template: `
         <div class="record" v-cloak>
-            <button id=load v-on:click='modal = true'>{{ strings.load }}</button>
-            <button v-show="SMF" id=btn v-on:click='playPause'> {{ player.playing ? strings.pause : strings.play }} </button>
-            <button v-show="player.playing" id=stop @click="stop">{{ strings.stopPlay }}</button>
-            <button id=recordButton @click='recordToggle'>{{ recording ? strings.stopRecord : strings.start }}</button>
-            <button v-show="SMF" id=rotate @click='rotate'>{{ strings.rotate }}</button>
-            <button v-show="SMF" id=translate @click='translate(1)'>{{ strings.translate }}</button>
-            <button v-show="SMF" id=export @click='download'>{{ strings.export }}</button>
+            <button id=load v-on:click='modal = true'>{{ strings.get('load') }}</button>
+            <button v-show="SMF" id=btn v-on:click='playPause'> {{ player.playing ? strings.get('pause') : strings.get('play') }} </button>
+            <button v-show="player.playing" id=stop @click="stop">{{ strings.get('stopPlay') }}</button>
+            <button id=recordButton @click='recordToggle'>{{ recording ? strings.get('stopRecord') : strings.get('start') }}</button>
+            <button v-show="SMF" id=export @click='download'>{{ strings.get('export') }}</button>
+            <br>
+            <transformations v-show="SMF" @transform="transform"></transformations>
             <song-loader v-show="modal" @load="load" @cancel="modal=false" file-browser></song-loader>
         </div>
     `
