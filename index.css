@@ -14,8 +14,14 @@
   src: url('fonts/quicksand-bold.woff') format('woff');
 }
 
-html, body { margin: 0; padding: 0; font-family: 'Quicksand'; color: #323248; }
 [v-cloak] { display: none; }
+
+#proto {
+    font-family: 'Quicksand'; margin: 0; padding: 0; color: #323248;
+    -webkit-user-select: none; /* Safari 3.1+ */
+    -moz-user-select: none; /* Firefox 2+ */
+    -ms-user-select: none; /* IE 10+ */
+    user-select: none; /* Standard syntax */}
 
 .header { display: flex; }
 .header > * { width: 8%; flex-grow: 1; height: 20px; }
@@ -23,18 +29,59 @@ html, body { margin: 0; padding: 0; font-family: 'Quicksand'; color: #323248; }
 h1 { text-align: center; text-transform: uppercase; margin: 12px 0 4px; font-size: 40px; }
 h2 { text-align: center; text-transform: uppercase; color: #aaa; margin: 0 0 20px; }
 
-div { /* No reason for anything to be selectable */
-    -webkit-user-select: none; /* Safari 3.1+ */
-    -moz-user-select: none; /* Firefox 2+ */
-    -ms-user-select: none; /* IE 10+ */
-    user-select: none; /* Standard syntax */
-}
-
 .reset { cursor: pointer; position: fixed; top: 30px; right: 10px; font-size: 14px; color: #aaa; }
 .reset:hover { text-decoration: underline; }
 
 .languageSwitcher { cursor: pointer; position: fixed; top: 30px; left: 10px; font-size: 14px; color: #aaa; }
 .languageSwitcher div:hover { text-decoration: underline; }
+
+.creditButton { cursor: pointer; float:right; bottom: 30px; right: 10px; font-size: 14px; color: #aaa; }
+.creditButton:hover { text-decoration: underline; }
+
+.info {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 12px;
+    color: #aaa;
+    background: white;
+    padding: 2px;
+    border: 1px solid #323248;
+    border-radius: 5px;
+    transition: width .5s ease-out, height .5s ease-out;
+    width: 23px; /* Fixed width and height as transition won't occur otherwise */
+    height: 12px;
+}
+.info.infoExpanded{
+    width: 80%;
+    height: 80%;
+    color: #000000;
+}
+.info.infoExpanded .infoButton{
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 2px;
+    border: 1px solid #323248;
+    border-radius: 5px;
+    background: white;
+}
+.infoButton:hover { font-weight: bold; }
+/* Ease in the explanation so it doesn't spill out of the box while transitionning */
+.info .infoExplain {
+    overflow:hidden;
+    opacity:0;
+    transition: opacity .5s ease-in;
+    height: 100%;
+}
+.info.infoExpanded .infoExplain {
+    display:block;
+    opacity:1;
+    font-size: 16px;
+    overflow-y: auto;
+    margin: 0 10px;
+}
 
 .columns { display: flex; flex-wrap: wrap; justify-content: center; }
 .col-1 { max-width: 1000px; margin: 20px; flex: 3 1 450px; }
@@ -60,13 +107,17 @@ button { cursor: pointer; outline: none; font-size: 18px; font-family: inherit;
 circle { fill: white; stroke: #aaa; }
 line { stroke: #aaa; }
 polygon { stroke: #aaa; fill : white; }
-text { fill: #aaa; font-size: 14px; text-anchor: middle; dominant-baseline: mathematical; }
+text { fill: #aaa; font-size: 14px; text-anchor: middle; dominant-baseline: central; }
+
+.tonnetzView {
+    position: relative;
+}
 
 .tonnetz, .clock { display: block; user-select: none; max-width: 100%; height: auto; }
 .tonnetz { border: 1px solid #323248; border-radius: 6px 6px 0 0; box-sizing: border-box; }
 .clock { stroke-width: 2px; margin-bottom: 10px;  }
 .clock text { font-weight: 700; font-size: 24px}
-.noteClock circle { r: 24 }
+.noteClock circle { r: 24px }
 
 .activeDichord, .activeTrichord { stroke: #323248; stroke-width: 2; fill: #ccc; }
 .activeNode + text { fill: white; }
@@ -78,14 +129,15 @@ text { fill: #aaa; font-size: 14px; text-anchor: middle; dominant-baseline: math
 .visitedTrichord { fill : lightgreen; }
 
 /*Tonnetz-specific stylings */
-.tonnetzNote circle { r: 12 }
-.tonnetzDichord circle { r: 2}
+.tonnetzNote circle { r: 12px}
+.tonnetzDichord circle { r: 2px}
 /* .tonnetzTrichord */
 /* CWT-specific stylings*/
 /* .chickenNote */
-.chickenDichord circle { r: 2}
-.chickenTrichord circle { r: 10 }
+.chickenDichord circle { r: 2px}
+.chickenTrichord circle { r: 10px}
 .chickenTrichord text {font-size: 70%}
+.chickenTrichord.minorish text {font-style: italic}
 
 .key-selector { display: flex; flex-wrap: wrap; justify-content: center; }
 .key-selector button { background: white; width: 28px; height: 28px; border: 2px solid #aaa;
@@ -93,6 +145,8 @@ text { fill: #aaa; font-size: 14px; text-anchor: middle; dominant-baseline: math
     border-radius: 20px; font-weight: 700; }
 .key-selector .activeNode { color: white; }
 
+.activeNode[data-key="1"] { fill: #e66438; stroke: #e66438; background: #e66438; border-color: #e66438; }
+.activeNode[data-key="2"]  { fill: #cc3450; stroke: #cc3450; background: #cc3450; border-color: #cc3450; }
 .activeNode[data-key="3"]  { fill: #b30469; stroke: #b30469; background: #b30469; border-color: #b30469; }
 .activeNode[data-key="4"] { fill: #822b9b; stroke: #822b9b; background: #822b9b; border-color: #822b9b; }
 .activeNode[data-key="5"]  { fill: #5053cd; stroke: #5053cd; background: #5053cd; border-color: #5053cd; }
@@ -103,10 +157,8 @@ text { fill: #aaa; font-size: 14px; text-anchor: middle; dominant-baseline: math
 .activeNode[data-key="10"]  { fill: #76a90d; stroke: #76a90d; background: #76a90d; border-color: #76a90d; }
 .activeNode[data-key="11"] { fill: #e6bd00; stroke: #e6bd00; background: #e6bd00; border-color: #e6bd00; }
 .activeNode[data-key="0"]  { fill: #ff941f; stroke: #ff941f; background: #ff941f; border-color: #ff941f; }
-.activeNode[data-key="1"] { fill: #e66438; stroke: #e66438; background: #e66438; border-color: #e66438; }
-.activeNode[data-key="2"]  { fill: #cc3450; stroke: #cc3450; background: #cc3450; border-color: #cc3450; }
 
-.record { width: 100%; margin: 12px 20px 32px; text-align: center; }
+.record { width: 95%; margin: 12px 20px 32px; text-align: center; }
 .record button { border: none; background: #ddd; border-radius: 4px; line-height: 32px;
     padding: 0 16px; margin: 4px; font-size: 16px; transition: background .2s; }
 .record button:hover, .record button:focus { background: #bbb; }
@@ -127,3 +179,5 @@ text { fill: #aaa; font-size: 14px; text-anchor: middle; dominant-baseline: math
 .piano-wrap { position: relative; height: 151px; overflow: hidden; }
 #piano { position: absolute; left: 50%; margin-left: -740px; }
 #piano .inner { text-align: center; display: block; font-size: 14px; margin-top: 4px; }
+
+#chord { font-weight: 700; text-align: center; height: 30px; font-size: 20px; position: relative; top: 0px;}

@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>The Tonnetz – One Key, Many Representations</title>
+        <!-- <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500" rel="stylesheet"> -->
+    </head>
+    <body>
+        <link rel="stylesheet" href="index.css">
+        <div id=proto class="columns">
+            <div>
+                <div v-cloak>
+                    <clock-octave :notes="notes" :width="500" :height="500" :intervals="1" toggle></clock-octave>
+                </div>
+                <div v-cloak>
+                    <interval-table :notes="notes"></interval-table>
+                </div>
+            </div>
+            <div>
+                <div v-cloak>
+                    <clock-octave :notes="complementNotes" :width="500" :height="500" :intervals="1"></clock-octave>
+                </div>
+                <div v-cloak>
+                    <interval-table :notes="complementNotes"></interval-table>
+                </div>
+            </div>    
+        </div>
+
+
+
+        <script src="lib/fallback/fallback.min.js"></script>
+        <script src="js/loadDeps.js"></script>
+        <script src="js/index.js"></script>
+       
+    </body>
+</html>

@@ -9,7 +9,7 @@ let mydir= path.split('/').slice(0, -1).join('/')+'/';  // remove last filename 
 fallback.load({
     //Vue: Main framework for reactive elements
     Vue: [
-        'https://cdn.jsdelivr.net/npm/vue/dist/vue.js',
+        'https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js',
         mydir+'../lib/Vue/vue.min.js'
     ],
     //JZZ: Midi library
@@ -22,6 +22,15 @@ fallback.load({
         'https://cdn.jsdelivr.net/npm/jzz-synth-tiny',
         mydir+'../lib/JZZ/JZZ.synth.Tiny.min.js'
     ],
+
+    //JZZ.Tiny: Basic Synthetizer
+    'JZZ.synth.MIDIjs': [
+        "https://jazz-soft.net//script/JZZ.synth.MIDIjs.js"
+    ],
+    'MIDI':[
+        'https://jazz-soft.net//script/MIDI.js'
+    ],
+
     //JZZ.Kbd: Keyboard bindings and virtual piano keyboard
     'JZZ.input.Kbd': [
         'https://cdn.jsdelivr.net/npm/jzz-input-kbd',
@@ -77,18 +86,36 @@ fallback.load({
     ],
     'Tonnetz_intervalTable':[
         mydir+'components/intervalTable.js'
+    ],
+    'Tonnetz_infoPanel':[
+        mydir+'components/infoPanel.js'
+    ],
+    'Tonnetz_credits':[
+        mydir+'components/creditScreen.js'
+    ],
+    'Tonnetz_ascii':[
+        mydir+'components/asciiBindings.js'
+    ],
+    'Tonnetz_transformations':[
+        mydir+'components/transformations.js'
+    ],
+    'Tonnetz_chord':[
+	mydir+'components/chordDisplay.js'
     ]
 },{
     shim:{
         // Wait for JZZ to be loaded before loading its submodules
         'JZZ.synth.Tiny': ['JZZ'],
+        'JZZ.synth.MIDIjs': ['JZZ','MIDI'],
         'JZZ.input.Kbd': ['JZZ'],
         'JZZ.MIDI.SMF': ['JZZ'],
         'Tonnetz_tonnetzLike': ['Tonnetz_mixins'],
         'Tonnetz_clockOctave': ['Tonnetz_mixins'],
-        'Tonnetz_playRecorder': ['Tonnetz_midiBus', 'Tonnetz_loader','Tonnetz_utils'],
+        'Tonnetz_playRecorder': ['Tonnetz_midiBus', 'Tonnetz_loader','Tonnetz_utils','Tonnetz_transformations'],
         'Tonnetz_midiBus': ['Vue','JZZ'],
-        'Tonnetz_tonnetzView': ['Tonnetz_tonnetzLike']
+        'Tonnetz_ascii': ['Tonnetz_midiBus'],
+        'Tonnetz_tonnetzView': ['Tonnetz_tonnetzLike','Tonnetz_infoPanel'],
+	'Tonnetz_chord': ['Tonnetz_clockOctave']
     }
 }
 )

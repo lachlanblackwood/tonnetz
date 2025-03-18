@@ -10,6 +10,20 @@ let clickToPlayWrapper = {
             validator: function(pitches){
                 return pitches.every( isMidiPitch )
             }
+        },
+        toggle: {
+            type:Boolean,
+            required:false,
+            default:false
+        },
+        clicklock: { // Temporarily lock click controls
+            type:Boolean,
+            required:false,
+            default:false
+        },
+        id : {
+            required:false,
+            default:undefined
         }
     },
     data: function (){return{
@@ -17,20 +31,42 @@ let clickToPlayWrapper = {
     }},
     methods:{
         clickOn: function(){
-            if(!this.clicked){
-                this.clicked=true;
-                midiBus.$emit('note-on',this.pitches);
+            if(this.toggle){
+                if(!this.clicked){
+                    this.clicked=true;
+                    midiBus.$emit('note-on',this.pitches,{parent:this.$parent,id:this.id});
+                }else{
+                    this.clicked=false;
+                    midiBus.$emit('note-off',this.pitches);
+                }
+            }else{
+                if(!this.clicked && !this.clicklock){
+                    this.clicked=true;
+                    midiBus.$emit('note-on',this.pitches,{parent:this.$parent,id:this.id});
+                }
             }
         },
         clickOff: function(){
-            if(this.clicked){
-                this.clicked=false;
-                midiBus.$emit('note-off',this.pitches);
+            if(!this.toggle){
+                if(this.clicked){
+                    this.clicked=false;
+                    midiBus.$emit('note-off',this.pitches);
+                }
             }
         },
         enter: function(event){
-            if(event.pressure!==0){//Pointer is down
-                this.clickOn();
+            if(!this.toggle){
+                if(event.pressure!==0){//Pointer is down
+                    this.clickOn();
+                }
+            }
+        }
+    },
+    watch:{
+        toggle: function(){
+            if(this.clicked){
+                this.clicked=false;
+                midiBus.$emit('note-off',this.pitches);
             }
         }
     },
