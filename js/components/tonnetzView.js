@@ -67,7 +67,7 @@ let tonnetzView = {
             type: this.initType
         },
         // Should drag and zoom be locked ?
-        lock: true,
+        lock: false,
         // Lock on clicking
         isClickLocked: false,
         strings:this.$root.strings,
