@@ -146,6 +146,9 @@ proto = new Vue({
         traceToggle: function(){
             this.trace = !this.trace;
         },
+        dragToggle: function(){
+            this.drag = !this.drag;
+        },
         // Handlers for playback events fired from the app
         noteOn: function(pitches,origin){
             //var notes = this.node2Notes(nodes);
