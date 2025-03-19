@@ -51,6 +51,10 @@ let tonnetzView = {
         trace:{
             type:Boolean,
             default:false
+        },
+        drag:{
+            type:Boolean,
+            default:false
         }
     },
     static: {
@@ -66,8 +70,6 @@ let tonnetzView = {
             // The type of representation for the main window ('tonnetz' or 'chicken')
             type: this.initType
         },
-        // Should drag and zoom be locked ?
-        lock: false,
         // Lock on clicking
         isClickLocked: false,
         strings:this.$root.strings,
@@ -87,7 +89,7 @@ let tonnetzView = {
     template:`
     <div class="tonnetzView">
     <info-panel :infoType="type"></info-panel>
-    <drag-zoom-svg v-bind:height="600" v-bind:width="1000" :lock="lock" @panning-on="isClickLocked=true" @panning-off="isClickLocked=false">
+    <drag-zoom-svg v-bind:height="600" v-bind:width="1000" :lock="!this.drag" @panning-on="isClickLocked=true" @panning-off="isClickLocked=false">
         <template v-slot="slotProps">
             <tonnetz-plan v-if="type=='tonnetz'" v-bind:notes="notes" v-bind:intervals="intervals" :bounds="slotProps.bounds" :trace="trace" :clicklock="isClickLocked"></tonnetz-plan>
             <chicken-wire v-else v-bind:notes="notes" :bounds="slotProps.bounds" v-bind:intervals="intervals" :trace="trace" :clicklock="isClickLocked"></chicken-wire>
@@ -97,6 +99,8 @@ let tonnetzView = {
     <tonnetz-selector v-model="graph" :tonnetze="tonnetze3" ></tonnetz-selector>
     <input type="checkbox" id="tracebox" v-model="trace" />
     <label for="tracebox">Trace trajectory (experimental)</label>
+    <br><input type="checkbox" id="dragbox" v-model="drag" />
+    <label for="dragbox">Allow tonnetz to be dragged (drag notes slowly for best effect)</label>
     <p class="warning" :style="isConnected ? {visibility:'hidden'} : {}">{{ strings.get('connected') }}</p>
     </div>
     `
